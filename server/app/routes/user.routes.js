@@ -7,6 +7,7 @@ import {
   createOffer,
   getActiveOffers,
   getArchivedOffers,
+  users,
 } from "../controllers/user.controller.js";
 
 const routes = function (app) {
@@ -37,6 +38,7 @@ const routes = function (app) {
   app.post("/api/create-offer", [authJwt.verifyToken], createOffer);
   app.get("/api/offers/active", getActiveOffers);
   app.get("/api/offers/archived", [authJwt.verifyToken], getArchivedOffers);
+  app.get("/api/users", users);
 };
 
 export default routes;

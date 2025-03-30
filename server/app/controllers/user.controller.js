@@ -17,6 +17,23 @@ export const moderatorBoard = (req, res) => {
   res.status(200).send("Moderator content.");
 };
 
+export const users = async (req, res) => {
+  try {
+    const users = await db.User.findAll({
+      include: [
+        {
+          model: db.Role,
+          as: "role",
+        },
+      ],
+    });
+    res.status(200).json(users);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error while getting users" });
+  }
+};
+
 export const getActiveOffers = async (req, res) => {
   try {
     const offers = await Offer.findAll({
@@ -48,11 +65,10 @@ export const getArchivedOffers = async (req, res) => {
 };
 
 export const createOffer = async (req, res) => {
-  console.log(req.body);
   try {
-    const { title, description, ttlHours } = req.body;
+    const { title, description, ttlHours, place, counter_offer } = req.body;
 
-    if (!title || !description || !ttlHours) {
+    if ((!title || !description || !ttlHours, !place)) {
       return res.status(400).send({ message: "All fields are required!" });
     }
 
@@ -63,6 +79,8 @@ export const createOffer = async (req, res) => {
 
     const offer = await Offer.create({
       title,
+      place,
+      counter_offer,
       description,
       ttlHours,
       expiresAt,
@@ -72,7 +90,7 @@ export const createOffer = async (req, res) => {
 
     res.status(201).json(offer);
   } catch (err) {
-    console.error("Ошибка создания:", err);
+    console.error("Creating error:", err);
     res.status(500).json({ message: "Cant create offer" });
   }
 };
