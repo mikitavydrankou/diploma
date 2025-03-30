@@ -41,6 +41,12 @@ export const getActiveOffers = async (req, res) => {
         status: "active",
         expiresAt: { [db.Sequelize.Op.gt]: new Date() },
       },
+      include: [
+        {
+          model: db.User,
+          attributes: ["id", "username"],
+        },
+      ],
     });
     res.status(200).json(offers);
   } catch (err) {
