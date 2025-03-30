@@ -8,6 +8,23 @@ const offerModel = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: false,
     },
+    place: {
+      type: Sequelize.ENUM(
+        "DS1",
+        "DS2",
+        "DS3",
+        "DS4",
+        "DS6",
+        "DS7",
+        "DS8",
+        "DS119"
+      ),
+      allowNull: false,
+    },
+    counter_offer: {
+      type: Sequelize.STRING,
+      defaultValue: "Oczekuje na propozycje",
+    },
     ttlHours: {
       type: Sequelize.INTEGER,
       allowNull: false,
