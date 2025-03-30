@@ -1,8 +1,16 @@
 import authJwt from "../middleware/authJwt.js";
-import {allAccess, userBoard, adminBoard, moderatorBoard} from "../controllers/user.controller.js";
+import {
+  allAccess,
+  userBoard,
+  adminBoard,
+  moderatorBoard,
+  createOffer,
+  getActiveOffers,
+  getArchivedOffers,
+} from "../controllers/user.controller.js";
 
-const test = function(app) {
-  app.use(function(req, res, next) {
+const routes = function (app) {
+  app.use(function (req, res, next) {
     res.header(
       "Access-Control-Allow-Headers",
       "x-access-token, Origin, Content-Type, Accept"
@@ -12,11 +20,7 @@ const test = function(app) {
 
   app.get("/api/test/all", allAccess);
 
-  app.get(
-    "/api/test/user",
-    [authJwt.verifyToken],
-    userBoard
-  );
+  app.get("/api/test/user", [authJwt.verifyToken], userBoard);
 
   app.get(
     "/api/test/mod",
@@ -29,6 +33,10 @@ const test = function(app) {
     [authJwt.verifyToken, authJwt.isAdmin],
     adminBoard
   );
+
+  app.post("/api/create-offer", [authJwt.verifyToken], createOffer);
+  app.get("/api/offers/active", getActiveOffers);
+  app.get("/api/offers/archived", [authJwt.verifyToken], getArchivedOffers);
 };
 
-export default test;
+export default routes;

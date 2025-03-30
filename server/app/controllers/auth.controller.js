@@ -3,41 +3,41 @@ import config from "../config/auth.config.js";
 const User = db.User;
 const Role = db.Role;
 
-
-
 const Op = db.Sequelize.Op;
 
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
 export const signup = (req, res) => {
-  // Save User to Database
-  User.create({
-    username: req.body.username,
-    email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8)
+  // user role = 1
+  // admin role = 2
+  // moderator role = 3
+
+  const roleName = req.body.role || "user";
+
+  Role.findOne({
+    where: {
+      name: roleName,
+    },
   })
-    .then(user => {
-      if (req.body.roles) {
-        Role.findAll({
-          where: {
-            name: {
-              [Op.or]: req.body.roles
-            }
-          }
-        }).then(roles => {
-          user.setRoles(roles).then(() => {
-            res.send({ message: "User registered successfully!" });
-          });
-        });
-      } else {
-        // user role = 1
-        user.setRoles([1]).then(() => {
-          res.send({ message: "User registered successfully!" });
-        });
+    .then((role) => {
+      if (!role) {
+        return Role.findOne({ where: { name: "user" } });
       }
+      return role;
     })
-    .catch(err => {
+    .then((role) => {
+      return User.create({
+        username: req.body.username,
+        email: req.body.email,
+        password: bcrypt.hashSync(req.body.password, 8),
+        roleId: role.id,
+      });
+    })
+    .then(() => {
+      res.send({ message: "User registered successfully!" });
+    })
+    .catch((err) => {
       res.status(500).send({ message: err.message });
     });
 };
@@ -45,15 +45,16 @@ export const signup = (req, res) => {
 export const signin = (req, res) => {
   User.findOne({
     where: {
-      username: req.body.username
-    }
+      username: req.body.username,
+    },
+    include: Role,
   })
-    .then(user => {
+    .then((user) => {
       if (!user) {
         return res.status(404).send({ message: "User Not found." });
       }
 
-      var passwordIsValid = bcrypt.compareSync(
+      const passwordIsValid = bcrypt.compareSync(
         req.body.password,
         user.password
       );
@@ -61,33 +62,28 @@ export const signin = (req, res) => {
       if (!passwordIsValid) {
         return res.status(401).send({
           accessToken: null,
-          message: "Invalid Password!"
+          message: "Invalid Password!",
         });
       }
 
-      const token = jwt.sign({ id: user.id },
-                              config.secret,
-                              {
-                                algorithm: 'HS256',
-                                allowInsecureKeySizes: true,
-                                expiresIn: 86400, // 24 hours
-                              });
+      const token = jwt.sign({ id: user.id }, config.secret, {
+        algorithm: "HS256",
+        allowInsecureKeySizes: true,
+        expiresIn: 86400, // 24 h
+      });
 
-      var authorities = [];
-      user.getRoles().then(roles => {
-        for (let i = 0; i < roles.length; i++) {
-          authorities.push("ROLE_" + roles[i].name.toUpperCase());
-        }
-        res.status(200).send({
-          id: user.id,
-          username: user.username,
-          email: user.email,
-          roles: authorities,
-          accessToken: token
-        });
+      const roleName = user.Role ? user.Role.name : "user";
+      const authorities = ["ROLE_" + roleName.toUpperCase()];
+
+      res.status(200).send({
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        roles: authorities,
+        accessToken: token,
       });
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).send({ message: err.message });
     });
 };
