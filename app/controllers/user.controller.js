@@ -44,7 +44,7 @@ export const getActiveOffers = async (req, res) => {
       include: [
         {
           model: db.User,
-          attributes: ["id", "username"],
+          attributes: ["id", "username", "link"],
         },
       ],
     });

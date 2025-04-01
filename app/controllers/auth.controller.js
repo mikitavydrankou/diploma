@@ -32,6 +32,7 @@ export const signup = (req, res) => {
         email: req.body.email,
         password: bcrypt.hashSync(req.body.password, 8),
         roleId: role.id,
+        link: req.body.link,
       });
     })
     .then(() => {
