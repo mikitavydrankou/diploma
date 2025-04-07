@@ -100,3 +100,26 @@ export const createOffer = async (req, res) => {
     res.status(500).json({ message: "Cant create offer" });
   }
 };
+
+export const deleteOffer = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const offer = await Offer.findByPk(id);
+
+    if (!offer) {
+      return res.status(404).json({ message: "Offer not found" });
+    }
+
+    if (offer.userId !== req.userId) {
+      return res.status(403).json({ message: "Permission denied" });
+    }
+
+    await offer.destroy();
+
+    res.status(200).json({ message: "Offer deleted successfully" });
+  } catch (err) {
+    console.error("Deleting error:", err);
+    res.status(500).json({ message: "Failed to delete offer" });
+  }
+};
