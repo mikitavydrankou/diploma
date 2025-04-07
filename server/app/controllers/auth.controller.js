@@ -35,8 +35,27 @@ export const signup = (req, res) => {
         link: req.body.link,
       });
     })
-    .then(() => {
-      res.send({ message: "User registered successfully!" });
+    .then((user) => {
+      const token = jwt.sign({ id: user.id }, config.secret, {
+        algorithm: "HS256",
+        allowInsecureKeySizes: true,
+        expiresIn: 86400,
+      });
+
+      return Role.findByPk(user.roleId).then((role) => {
+        const roleName = role ? role.name : "user";
+        const authorities = ["ROLE_" + roleName.toUpperCase()];
+
+        res.status(200).send({
+          message: "User registered successfully!",
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          roles: authorities,
+          link: user.link,
+          accessToken: token,
+        });
+      });
     })
     .catch((err) => {
       res.status(500).send({ message: err.message });
@@ -81,6 +100,7 @@ export const signin = (req, res) => {
         username: user.username,
         email: user.email,
         roles: authorities,
+        link: user.link,
         accessToken: token,
       });
     })

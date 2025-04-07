@@ -1,3 +1,5 @@
+import styles from "./Offer.module.css";
+
 const OfferItem = ({ offer, currentTime }) => {
   const calculateTimeLeft = () => {
     const expirationDate = new Date(offer.expiresAt);
@@ -12,14 +14,14 @@ const OfferItem = ({ offer, currentTime }) => {
   };
 
   return (
-    <div className="offer-item">
+    <div className={styles.offerItem}>
       <p>{offer.user.username}</p>
       <p>{offer.title}</p>
-      <div className="offer-time-and-button">
-        <div className="offer-item-time">
+      <div className={styles.offerTimeAndButton}>
+        <div className={styles.offerItemTime}>
           <p>{calculateTimeLeft()}</p>
         </div>
-        <button className="look-more-button">Zobacz</button>
+        <button className={styles.lookMoreButton}>Zobacz</button>
       </div>
 
       {/* TODO Сделать условную страницу как на pracul.pl. Перенести */}

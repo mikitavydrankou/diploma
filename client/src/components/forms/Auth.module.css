@@ -1,0 +1,63 @@
+/* Auth.module.css (обновленные стили) */
+.authContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background: #f1f5f9;
+}
+
+.formContainer {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 400px;
+}
+
+.authTitle {
+  font-size: 1.75rem;
+  color: #1e293b;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.authInput {
+  width: 100%;
+  padding: 0.875rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.authInput:focus {
+  border-color: #3b82f6;
+  outline: none;
+}
+
+.authButton {
+  width: 100%;
+  padding: 1rem;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.authButton:hover {
+  background: #2563eb;
+}
+
+.authError {
+  color: #ef4444;
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.875rem;
+}

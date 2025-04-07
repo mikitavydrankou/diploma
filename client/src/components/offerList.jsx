@@ -1,4 +1,6 @@
-import OfferItem from "./offerItem.jsx";
+import styles from "./Offer.module.css";
+
+import OfferItem from "./OfferItem";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -35,8 +37,8 @@ function OfferList() {
   }
 
   return (
-    <div className="offer-list">
-      <div className="offer-list-header">
+    <div className={styles.offerList}>
+      <div className={styles.offerListHeader}>
         <p>Nickname</p>
         <p>Offeruje</p>
         <p>Czas/Sczegóły</p>
