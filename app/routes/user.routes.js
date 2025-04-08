@@ -9,6 +9,7 @@ import {
   getArchivedOffers,
   users,
   deleteOffer,
+  leaderboard,
 } from "../controllers/user.controller.js";
 
 const routes = function (app) {
@@ -41,6 +42,7 @@ const routes = function (app) {
   app.get("/api/offers/active", getActiveOffers);
   app.get("/api/offers/archived", [authJwt.verifyToken], getArchivedOffers);
   app.get("/api/users", users);
+  app.get("/api/leaderboard", leaderboard);
 };
 
 export default routes;
