@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createUserOffer } from "../../store/actions/offerActions";
+import styles from "./Form.module.css";
 
 const CreateOfferForm = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +10,7 @@ const CreateOfferForm = () => {
     title: "",
     description: "",
     ttlHours: 1,
+    counter_offer: "",
   });
 
   const dispatch = useDispatch();
@@ -33,15 +35,16 @@ const CreateOfferForm = () => {
   };
 
   return (
-    <div className="form-container">
-      <h2>Create New Offer</h2>
-      <form onSubmit={handleSubmit}>
+    <div className={styles.formContainer}>
+      <h2 className={styles.title}>Create New Offer</h2>
+      <form onSubmit={handleSubmit} className={styles.form}>
         <input
           name="place"
           value={formData.place}
           onChange={handleChange}
           placeholder="Place (e.g. DS4)"
           required
+          className={styles.input}
         />
 
         <input
@@ -50,6 +53,7 @@ const CreateOfferForm = () => {
           onChange={handleChange}
           placeholder="Title (e.g. piwko)"
           required
+          className={styles.input}
         />
 
         <textarea
@@ -58,6 +62,16 @@ const CreateOfferForm = () => {
           onChange={handleChange}
           placeholder="Description"
           required
+          className={styles.textarea}
+        />
+
+        <input
+          name="counter_offer"
+          value={formData.counter_offer}
+          onChange={handleChange}
+          placeholder="Co chcesz?"
+          required
+          className={styles.input}
         />
 
         <input
@@ -68,13 +82,14 @@ const CreateOfferForm = () => {
           placeholder="TTL (hours)"
           min="1"
           required
+          className={styles.numberInput}
         />
 
-        <button type="submit" disabled={isLoading}>
+        <button type="submit" disabled={isLoading} className={styles.button}>
           {isLoading ? "Creating..." : "Create Offer"}
         </button>
 
-        {error && <div className="error">{error}</div>}
+        {error && <div className={styles.error}>{error}</div>}
       </form>
     </div>
   );

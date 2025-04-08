@@ -9,8 +9,7 @@ export const createUserOffer = (offerData) => async (dispatch, getState) => {
   try {
     dispatch({ type: CREATE_OFFER_REQUEST });
 
-    const token = getState().auth.token; // Получаем токен из Redux store
-
+    const token = getState().auth.token;
     if (!token) {
       throw new Error("No token available");
     }
@@ -30,7 +29,7 @@ export const createUserOffer = (offerData) => async (dispatch, getState) => {
       payload: response.data,
     });
 
-    return response.data; // Для обработки в компоненте
+    return response.data;
   } catch (error) {
     dispatch({
       type: CREATE_OFFER_FAIL,

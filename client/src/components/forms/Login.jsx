@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../store/actions/authActions";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./Auth.module.css";
 
 const Login = () => {
@@ -48,6 +48,10 @@ const Login = () => {
           </button>
           {error && <div className={styles.error}>{error}</div>}
         </form>
+
+        <Link to="/register" className={styles.registerLink}>
+          Register
+        </Link>
       </div>
     </div>
   );

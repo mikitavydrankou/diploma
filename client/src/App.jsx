@@ -11,13 +11,14 @@ import LoginPage from "./pages/LoginPage";
 import TopNavbar from "./components/navbars/TopNavbar";
 import BottomNavbar from "./components/navbars/BottomNavbar";
 import CreateOfferPage from "./pages/CreateOfferPage";
+import LookMorePage from "./pages/LookMorePage";
 
 const MainLayout = () => {
   return (
     <div className={styles.appContainer}>
       <TopNavbar />
       <main className={styles.content}>
-        <Outlet /> {/* Здесь будет рендериться контент страниц */}
+        <Outlet />
       </main>
       <BottomNavbar />
     </div>
@@ -27,7 +28,6 @@ const MainLayout = () => {
 export default function App() {
   return (
     <Routes>
-      {/* Страницы без layout */}
       <Route path="/login" element={<LoginPage />} />
 
       {/* Все остальные страницы с layout */}
@@ -36,7 +36,8 @@ export default function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/history" element={<HistoryPage />} />
-        <Route path="/CreateOfferPage" element={<CreateOfferPage />} />
+        <Route path="/createoffer" element={<CreateOfferPage />} />
+        <Route path="/lookmore" element={<LookMorePage />} />
 
         {/* Будущие защищенные маршруты */}
         {/* <Route element={<PrivateRoute />}>

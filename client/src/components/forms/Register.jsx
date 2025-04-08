@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../store/actions/authActions";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./Auth.module.css";
 
 const Register = () => {
@@ -65,9 +65,11 @@ const Register = () => {
           </button>
           {error && <div className={styles.error}>{error}</div>}
         </form>
+        <Link to="/login" className={styles.loginLink}>
+          Login
+        </Link>
       </div>
     </div>
   );
 };
-
 export default Register;

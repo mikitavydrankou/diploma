@@ -1,4 +1,5 @@
 import styles from "./Offer.module.css";
+import { Link } from "react-router-dom";
 
 const OfferItem = ({ offer, currentTime }) => {
   const calculateTimeLeft = () => {
@@ -21,7 +22,11 @@ const OfferItem = ({ offer, currentTime }) => {
         <div className={styles.offerItemTime}>
           <p>{calculateTimeLeft()}</p>
         </div>
-        <button className={styles.lookMoreButton}>Zobacz</button>
+        <button className={styles.lookMoreButton}>
+          <Link to="/lookmore" className={styles.navItem}>
+            Zobaczyc
+          </Link>
+        </button>
       </div>
 
       {/* TODO Сделать условную страницу как на pracul.pl. Перенести */}
