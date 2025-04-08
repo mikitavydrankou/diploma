@@ -14,7 +14,8 @@
   width: 100%;
   display: block;
   box-sizing: border-box;
-  padding: 10px;
+
   margin-bottom: 10px;
   font-size: 20px;
+  padding: 12px 24px;
 }

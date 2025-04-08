@@ -13,7 +13,6 @@ function OfferList() {
     const timer = setInterval(() => {
       setTime(Date.now());
     }, 60 * 1000);
-
     return () => clearInterval(timer);
   }, []);
 
