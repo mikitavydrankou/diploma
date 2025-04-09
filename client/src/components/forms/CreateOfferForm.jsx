@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createUserOffer } from "../../store/actions/offerActions";
-import styles from "./Form.module.css";
+import styles from "./styles/Form.module.css";
 
 const CreateOfferForm = () => {
   const [formData, setFormData] = useState({
     place: "",
     title: "",
     description: "",
-    ttlHours: 1,
+    ttlHours: "",
     counter_offer: "",
   });
 
@@ -28,9 +28,15 @@ const CreateOfferForm = () => {
   };
 
   const handleChange = (e) => {
+    let value = e.target.value;
+
+    if (e.target.type === "number") {
+      value = value === "" ? "" : Number(value);
+    }
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [e.target.name]: value,
     });
   };
 

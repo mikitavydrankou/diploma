@@ -1,5 +1,4 @@
-import styles from "./Offer.module.css";
-
+import styles from "./styles/Offer.module.css";
 import OfferItem from "./OfferItem";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -23,8 +22,10 @@ function OfferList() {
           "http://localhost:3000/api/offers/active"
         );
         setOffers(response.data);
-        setLoading(false);
       } catch (err) {
+        console.error("Fetch error:", err);
+        setOffers([]);
+      } finally {
         setLoading(false);
       }
     };
@@ -32,27 +33,13 @@ function OfferList() {
   }, []);
 
   if (loading) {
-    return <div>Загрузка...</div>;
+    return <div className={styles.loading}>Ładuję listę ofert...</div>;
   }
 
   return (
     <div className={styles.offerList}>
-      <div className={styles.offerListHeader}>
-        <p>Nickname</p>
-        <p>Offeruje</p>
-        <p>Czas/Sczegóły</p>
-      </div>
       {offers.map((offer) => (
-        <OfferItem
-          key={offer.id}
-          offer={{
-            ...offer,
-            nickname: offer.user?.username || "Anonim",
-            expiresAt: offer.expiresAt,
-            link: "#",
-          }}
-          currentTime={time}
-        />
+        <OfferItem key={offer.id} offer={offer} currentTime={time} />
       ))}
     </div>
   );
