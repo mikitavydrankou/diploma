@@ -25,8 +25,10 @@ app.get("/", (req, res) => {
 
 import authRoutes from "./app/routes/auth.routes.js";
 import userRoutes from "./app/routes/user.routes.js";
+import offerRoutes from "./app/routes/offer.routes.js";
 authRoutes(app);
 userRoutes(app);
+offerRoutes(app);
 
 app.listen(port, () => {
   console.log(
