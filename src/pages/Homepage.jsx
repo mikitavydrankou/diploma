@@ -1,20 +1,14 @@
 // import LogoutButton from "./logoutButton";
-import WeekendLeaderboard from "../components/WeekendLeaderboad";
+import WeekendLeaderboard from "../components/leaderboard/WeekendLeaderboad";
 import AddOfferButton from "../components/buttons/AddOfferButton";
-import OfferList from "../components/OfferList";
-import "./Homepage.module.css";
+import OfferList from "../components/offer/OfferList";
+import styles from "./styles/Homepage.module.css";
 import { useSelector } from "react-redux";
 
 export const Homepage = () => {
   const { token } = useSelector((state) => state.auth);
   return (
-    // <div>
-    //   <h1>Dashboard</h1>
-    //   <p>Welcome to the dashboard!</p>
-
-    // </div>
-    <div className="Homepage">
-      {/* <LogoutButton /> */}
+    <div className={styles.homepage}>
       <WeekendLeaderboard />
       {token && <AddOfferButton />}
       <OfferList />

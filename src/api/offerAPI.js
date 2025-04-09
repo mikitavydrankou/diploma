@@ -18,3 +18,11 @@ export const deleteOffer = (id, token) => {
     },
   });
 };
+
+export const fetchOffers = () => {
+  return axios.get(`${API_URL}s/active`);
+};
+
+export const fetchOfferById = (offerId) => {
+  return axios.get(`${API_URL}/${offerId}`);
+};

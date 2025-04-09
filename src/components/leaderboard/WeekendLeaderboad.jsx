@@ -1,4 +1,4 @@
-import styles from "./WeekendLeaderboard.module.css";
+import styles from "./styles/WeekendLeaderboard.module.css";
 import { useEffect, useState } from "react";
 
 const WeekendLeaderboard = () => {
@@ -25,7 +25,7 @@ const WeekendLeaderboard = () => {
     fetchLeaders();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div>Ładuję leaderboard...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (

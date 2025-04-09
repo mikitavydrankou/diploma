@@ -1,56 +1,28 @@
-// BottomNavbar.jsx
 import * as React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../store/actions/authActions";
-import styles from "./Navbar.module.css";
+import styles from "./styles/Navbar.module.css";
 
 const BottomNavbar = () => {
-  const [open, setOpen] = React.useState(false);
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const dropdownRef = React.useRef(null);
   const { token } = useSelector((state) => state.auth);
 
   const handleLogout = () => {
     dispatch(logout());
     navigate("/");
-    setOpen(false);
+    setIsMenuOpen(false);
   };
 
-  React.useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  const Dropdown = ({ open, trigger, menu }) => {
-    return (
-      <div className={styles.dropdown} ref={dropdownRef}>
-        {trigger}
-        {open && (
-          <div className={styles.dropdownMenu}>
-            {menu.map((menuItem, index) => (
-              <div key={index} className={styles.menuItem}>
-                {menuItem}
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    );
-  };
+  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
 
   if (!token) {
     return (
-      <div className={styles.BottomNavbar}>
-        <Link to="/login" className={styles.loginButton}>
-          Войти
+      <div className={styles.bottomNavbar}>
+        <Link to="/login" className={styles.navButton}>
+          Login
         </Link>
       </div>
     );
@@ -59,32 +31,28 @@ const BottomNavbar = () => {
   return (
     <div className={styles.bottomNavbar}>
       <Link to="/profile" className={styles.navItem}>
-        Профиль
+        Ja
       </Link>
       <Link to="/" className={styles.navItem}>
-        Главная
+        Oferty
       </Link>
-      <Dropdown
-        open={open}
-        trigger={
-          <button
-            className={styles.menuButton}
-            onClick={() => setOpen(!open)}
-            aria-expanded={open}
-          >
-            Меню
-          </button>
-        }
-        menu={[
-          <button
-            key="logout"
-            className={styles.menuItem}
-            onClick={handleLogout}
-          >
-            Выйти
-          </button>,
-        ]}
-      />
+      <div className={styles.dropdown}>
+        <button
+          className={styles.menuButton}
+          onClick={toggleMenu}
+          aria-expanded={isMenuOpen}
+        >
+          - - -
+        </button>
+
+        {isMenuOpen && (
+          <div className={styles.dropdownMenu}>
+            <button className={styles.menuItem} onClick={handleLogout}>
+              Logout
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

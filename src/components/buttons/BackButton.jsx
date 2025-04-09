@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import styles from "./styles/Buttons.module.css";
 
 const BackButton = () => {
   const navigate = useNavigate();
@@ -11,7 +12,14 @@ const BackButton = () => {
     }
   };
 
-  return <button onClick={goBack}>Назад</button>;
+  return (
+    <button
+      onClick={goBack}
+      className={`${styles.button} ${styles.secondaryButton} ${styles.withIcon}`}
+    >
+      Zamknij
+    </button>
+  );
 };
 
 export default BackButton;

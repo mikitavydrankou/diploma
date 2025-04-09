@@ -1,9 +1,9 @@
-import styles from "./Navbar.module.css";
+import styles from "./styles/Navbar.module.css";
 
 const TopNavbar = () => {
   return (
     <div className={styles.topNavbar}>
-      <div className={styles.topNavLogo}>pidoras</div>
+      <div className={styles.topNavLogo}>Logo</div>
     </div>
   );
 };

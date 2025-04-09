@@ -1,4 +1,4 @@
-import "./Homepage.module.css";
+import "./styles/Homepage.module.css";
 import CreateOfferForm from "../components/forms/CreateOfferForm";
 import BackButton from "../components/buttons/BackButton";
 
