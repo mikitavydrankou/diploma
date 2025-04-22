@@ -1,49 +1,43 @@
-import styles from "./Layout.module.css";
+import "./App.css";
+import styles from "./styles/Layout.module.css";
 import { Routes, Route, Outlet } from "react-router-dom";
-
-import RegisterPage from "./pages/auth/RegisterPage";
-import LoginPage from "./pages/auth/LoginPage";
-import Homepage from "./pages/Homepage";
-import ProfilePage from "./pages/ProfilePage";
-import HistoryPage from "./pages/HistoryPage";
-// import PrivateRoute from "./pages/PrivateRoute";
-// import PrivatePage from "./pages/PrivatePage";
+import HomePage from "./pages/Homepage";
+import SigninPage from "./pages/authPages/SigninPage";
+import SignupPage from "./pages/authPages/SignupPage";
 import TopNavbar from "./components/navbars/TopNavbar";
 import BottomNavbar from "./components/navbars/BottomNavbar";
-import CreateOfferPage from "./pages/CreateOfferPage";
+import ProfilePage from "./pages/ProfilePage";
 import OfferPage from "./pages/OfferPage";
+import CreateOfferPage from "./pages/CreateOfferPage";
 
 const MainLayout = () => {
-  return (
-    <div className={styles.appContainer}>
-      <TopNavbar />
-      <main className={styles.content}>
-        <Outlet />
-      </main>
-      <BottomNavbar />
-    </div>
-  );
+    return (
+        <div className={styles.appContainer}>
+            <TopNavbar />
+            <main className={styles.mainContent}>
+                <Outlet />
+            </main>
+            <BottomNavbar />
+        </div>
+    );
 };
 
-export default function App() {
-  return (
-    <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="/createoffer" element={<CreateOfferPage />} />
-      <Route path="/offer/:offerId" element={<OfferPage />} />
+function App() {
+    return (
+        <Routes>
+            <Route path="/signin" element={<SigninPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="/offer/:id" element={<OfferPage />} />
+            <Route path="/offer/create" element={<CreateOfferPage />} />
+            {/* <Route path="/createoffer" element={<CreateOfferPage />} />
+            <Route path="/offer/:offerId" element={<OfferPage />} /> */}
 
-      {/* Все остальные страницы с layout */}
-      <Route element={<MainLayout />}>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/history" element={<HistoryPage />} />
-
-        {/* Будущие защищенные маршруты */}
-        {/* <Route element={<PrivateRoute />}>
-          <Route path="/private" element={<PrivatePage />} />
-        </Route> */}
-      </Route>
-    </Routes>
-  );
+            <Route element={<MainLayout />}>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/profile" element={<ProfilePage />} />
+            </Route>
+        </Routes>
+    );
 }
+
+export default App;

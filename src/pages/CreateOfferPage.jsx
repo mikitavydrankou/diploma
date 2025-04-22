@@ -1,14 +1,11 @@
-import "./styles/Homepage.module.css";
-import CreateOfferForm from "../components/forms/CreateOfferForm";
-import BackButton from "../components/buttons/BackButton";
+import BackButton from "../components/Buttons/BackButton";
 
 export const CreateOfferPage = () => {
-  return (
-    <div className="createOfferPage">
-      <BackButton />
-      <CreateOfferForm />
-    </div>
-  );
+    return (
+        <div>
+            <BackButton />
+        </div>
+    );
 };
 
 export default CreateOfferPage;
