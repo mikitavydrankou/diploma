@@ -1,84 +1,54 @@
 .topNavbar {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 50px;
-  background: #f8f9fa;
-  display: flex;
-  align-items: center;
-  padding: 0 20px;
-  border-bottom: 1px solid #ddd;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: #1a1a1a;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 1000;
 }
 
 .bottomNavbar {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 60px;
-  background: #fff;
-  border-top: 1px solid #ddd;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  gap: 15px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: #1a1a1a;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 1000;
+    gap: 15px;
 }
 
 .navItem {
-  padding: 8px 12px;
-  color: #333;
-  text-decoration: none;
-  border-radius: 4px;
+    padding: 8px 12px;
+    color: #333;
+    text-decoration: none;
+    border-radius: 4px;
 }
 
-.navItem:hover {
-  background: #f0f0f0;
-}
+.top-navbar,
+.bottom-navbar {
+    /* Ограничение размеров */
+    max-width: 100vw; /* Максимальная ширина равна ширине экрана */
+    overflow: hidden; /* Скрытие выходящего за пределы контента */
 
-.navButton {
-  padding: 8px 16px;
-  background: #007bff;
-  color: white;
-  border-radius: 4px;
-  text-decoration: none;
-}
+    /* Запрет переноса строк */
+    white-space: nowrap;
+    text-overflow: ellipsis; /* Добавление многоточия при переполнении */
 
-.dropdown {
-  position: relative;
-}
+    /* Фиксированная высота */
+    height: 60px; /* Жестко заданная высота */
 
-.dropdownMenu {
-  position: absolute;
-  bottom: 100%;
-  right: 0;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  margin-bottom: 8px;
-  min-width: 120px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.menuItem {
-  padding: 8px 12px;
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.menuItem:hover {
-  background: #f8f9fa;
-}
-
-.menuButton {
-  padding: 8px 12px;
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.menuButton:hover {
-  background: #f8f9fa;
+    /* Выравнивание контента */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
