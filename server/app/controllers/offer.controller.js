@@ -1,10 +1,10 @@
-// createOffer,
-// getActiveOffers,
-// getArchivedOffers,
-// deleteOffer,
-
 import db from "../models/index.js";
 const Offer = db.Offer;
+
+const USER_INCLUDE_SETTINGS = {
+    model: db.User,
+    attributes: ["id", "username", "link"],
+};
 
 export const getActiveOffers = async (req, res) => {
     try {
@@ -13,17 +13,12 @@ export const getActiveOffers = async (req, res) => {
                 status: "active",
                 expiresAt: { [db.Sequelize.Op.gt]: new Date() },
             },
-            include: [
-                {
-                    model: db.User,
-                    attributes: ["id", "username", "link"],
-                },
-            ],
+            include: [USER_INCLUDE_SETTINGS],
         });
         res.status(200).json(offers);
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: "Error while getting active offers" });
+        console.error("Error in getActiveOffers:", err);
+        res.status(500).json({ message: "Failed to fetch active offers" });
     }
 };
 
@@ -33,11 +28,12 @@ export const getArchivedOffers = async (req, res) => {
             where: {
                 status: "archived",
             },
+            include: [USER_INCLUDE_SETTINGS],
         });
 
         res.status(200).json(offers);
     } catch (err) {
-        console.error(err);
+        console.error("Error in getArchivedOffers:", err);
         res.status(500).json({ message: "Error while getting archive offers" });
     }
 };
@@ -61,18 +57,25 @@ export const createOffer = async (req, res) => {
 
         console.log("Creating offer");
 
-        const offer = await Offer.create({
-            title,
-            place,
-            counter_offer,
-            description,
-            ttlHours,
-            expiresAt,
-            userId: req.userId,
-            status: "active",
-        });
-
-        res.status(201).json(offer);
+        try {
+            const offer = await Offer.create({
+                title,
+                place,
+                counter_offer,
+                description,
+                ttlHours,
+                expiresAt,
+                userId: req.user.id,
+                status: "active",
+            });
+            res.status(201).json(offer);
+        } catch (error) {
+            if (error.name === "SequelizeValidationError") {
+                return res.status(400).json({
+                    message: error.errors.map((e) => e.message),
+                });
+            }
+        }
     } catch (err) {
         console.error("Creating error:", err);
         res.status(500).json({ message: "Cant create offer" });
@@ -89,7 +92,7 @@ export const deleteOffer = async (req, res) => {
             return res.status(404).json({ message: "Offer not found" });
         }
 
-        if (offer.userId !== req.userId) {
+        if (offer.userId !== req.user.id) {
             return res.status(403).json({ message: "Permission denied" });
         }
 
@@ -106,19 +109,14 @@ export const fetchOfferById = async (req, res) => {
     try {
         const { id } = req.params;
         const offer = await Offer.findByPk(id, {
-            include: [
-                {
-                    model: db.User,
-                    attributes: ["id", "username", "link"],
-                },
-            ],
+            include: [USER_INCLUDE_SETTINGS],
         });
         if (!offer) {
             return res.status(404).json({ message: "Offer not found" });
         }
         res.status(200).json(offer);
     } catch (err) {
-        console.error("Deleting error:", err);
-        res.status(500).json({ message: "Failed to delete offer" });
+        console.error("Fetching error:", err);
+        res.status(500).json({ message: "Failed to fetch offer by id" });
     }
 };

@@ -1,12 +1,19 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { fetchOffers, fetchOfferById, createOffer } from "./offerAPI";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { queryClient } from "./queryClient";
+import { useNavigate } from "react-router-dom";
+
+import {
+    fetchOffers,
+    fetchOfferById,
+    deleteOffer,
+    createOffer,
+} from "./offerAPI";
 
 export const useOffers = () => {
     return useQuery({
         queryKey: ["offers"],
         queryFn: async () => {
-            const response = await fetchOffers();
-            return response.data;
+            return fetchOffers();
         },
     });
 };
@@ -19,14 +26,23 @@ export const useOfferById = (offerId) => {
     });
 };
 
-export const useCreateOffer = (token) => {
-    //TODO is this token needed?
-    const queryClient = useQueryClient();
+export const useDeleteOffer = () => {
+    return useMutation({
+        mutationFn: (id) => deleteOffer(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["offers"] });
+        },
+    });
+};
+
+export const useCreateOffer = () => {
+    const navigate = useNavigate();
 
     return useMutation({
-        mutationFn: (offerData) => createOffer(offerData, token),
+        mutationFn: createOffer,
         onSuccess: () => {
-            queryClient.invalidateQueries(["offers"]);
+            queryClient.invalidateQueries({ queryKey: ["offers"] });
+            navigate("/");
         },
     });
 };

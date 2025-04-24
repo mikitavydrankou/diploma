@@ -1,96 +1,79 @@
 import { create } from "zustand";
-import { devtools } from "zustand/middleware";
-import { signin, signup } from "../api/authAPI";
-
-const getLocalStorageItem = (key) => {
-    try {
-        const item = localStorage.getItem(key);
-        return item ? JSON.parse(item) : null;
-    } catch (error) {
-        console.error(`Error parsing ${key}:`, error);
-        return null;
-    }
-};
+import { devtools, persist } from "zustand/middleware";
+import { signin, signup, checkauth, signout } from "../api/authAPI";
 
 export const useAuthStore = create(
-    devtools((set, get) => ({
-        token: getLocalStorageItem("token"),
-        user: getLocalStorageItem("user"),
-        isLoading: false,
-        error: null,
+    persist(
+        devtools((set) => ({
+            user: null,
+            isLoading: false,
+            error: null,
 
-        signin: async (username, password) => {
-            set({ isLoading: true, error: null });
-            try {
-                const { data } = await signin(username, password);
+            signin: async (username, password) => {
+                set({ isLoading: true, error: null });
+                try {
+                    const { data } = await signin(username, password);
+                    set({ user: data, isLoading: false });
+                } catch (error) {
+                    set({
+                        error: error.response?.data?.message || "Signin failed",
+                        isLoading: false,
+                    });
+                    throw error;
+                }
+            },
 
-                const userData = {
-                    id: data.id,
-                    username: data.username,
-                    email: data.email,
-                    roles: data.roles,
-                    link: data.link,
-                };
+            signup: async (username, email, link, password) => {
+                set({ isLoading: true, error: null });
+                try {
+                    const { data } = await signup(
+                        username,
+                        email,
+                        link,
+                        password
+                    );
+                    set({ user: data, isLoading: false });
+                } catch (error) {
+                    set({
+                        error: error.response?.data?.message || "Signup failed",
+                        isLoading: false,
+                    });
+                    throw error;
+                }
+            },
 
-                localStorage.setItem("token", data.accessToken);
-                localStorage.setItem("user", JSON.stringify(userData));
-                console.log(data);
+            logout: async () => {
+                try {
+                    await signout();
+                } catch (error) {
+                    console.error("Logout error:", error);
+                }
+                set({ user: null });
+                localStorage.removeItem("auth-storage");
+                document.cookie =
+                    "token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT;";
+            },
 
-                set({
-                    token: data.accessToken,
-                    user: userData,
-                    isLoading: false,
-                    error: null,
-                });
-            } catch (error) {
-                set({
-                    error: error.response?.data?.message || "Signin failed",
-                    isLoading: false,
-                });
-                throw error;
-            }
-        },
+            // authStore.js
+            checkAuth: async () => {
+                try {
+                    const response = await checkauth();
+                    if (response) {
+                        set({ user: response });
+                    } else {
+                        set({ user: null });
+                    }
+                } catch {
+                    set({ user: null });
+                }
+            },
 
-        signup: async (username, email, password, link) => {
-            set({ isLoading: true, error: null });
-            try {
-                const { data } = await signup(username, email, password, link);
-
-                localStorage.setItem("token", data.accessToken);
-                localStorage.setItem(
-                    "user",
-                    JSON.stringify({
-                        id: data.id,
-                        username: data.username,
-                        email: data.email,
-                        roles: data.roles,
-                        link: data.link,
-                    })
-                );
-
-                set({
-                    token: data.accessToken,
-                    user: data.user,
-                    isLoading: false,
-                    error: null,
-                });
-            } catch (error) {
-                set({
-                    error: error.response?.data?.message || "Signup failed",
-                    isLoading: false,
-                });
-                throw error;
-            }
-        },
-
-        logout: () => {
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            set({ token: null, user: null });
-        },
-
-        isAuthenticated: () => {
-            return !!get().user || !!get().token;
-        },
-    }))
+            isAuthenticated: () => !!useAuthStore.getState().user,
+        }))
+    ),
+    {
+        name: "auth-storage",
+        getStorage: () => localStorage,
+        partialize: (state) => ({ user: state.user }),
+    }
 );

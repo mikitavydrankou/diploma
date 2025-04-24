@@ -1,22 +1,23 @@
 import express from "express";
 import cors from "cors";
 import db from "./app/models/index.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 const port = 3000;
 
-var corsOptions = {
+const corsOptions = {
     origin: "http://localhost:5173",
+    credentials: true,
+    allowedHeaders: ["Content-Type"],
 };
 
 app.use(cors(corsOptions));
-
 app.use(express.json());
-
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 const Role = db.Role;
-
 db.sequelize.sync({ alter: true });
 
 app.get("/", (req, res) => {
@@ -36,23 +37,7 @@ app.listen(port, () => {
     );
 });
 
-function initial() {
-    Role.create({
-        id: 1,
-        name: "user",
-    });
-
-    Role.create({
-        id: 2,
-        name: "moderator",
-    });
-
-    Role.create({
-        id: 3,
-        name: "admin",
-    });
-}
-
-// initial();
+const initialRoles = ["user", "admin", "moderator"];
+initialRoles.forEach((name) => Role.findOrCreate({ where: { name } }));
 
 app.use(express.static("public"));
