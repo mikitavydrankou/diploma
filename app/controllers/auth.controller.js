@@ -1,111 +1,108 @@
 import db from "../models/index.js";
 import config from "../config/auth.config.js";
-const User = db.User;
-const Role = db.Role;
-
-const Op = db.Sequelize.Op;
-
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-export const signup = (req, res) => {
-    // user role = 1
-    // admin role = 2
-    // moderator role = 3
+const User = db.User;
+const Role = db.Role;
+const Op = db.Sequelize.Op;
 
-    const roleName = req.body.role || "user";
-    console.log(roleName);
+// user role = 1
+// admin role = 2
+// moderator role = 3
 
-    Role.findOne({
-        where: {
-            name: roleName,
-        },
-    })
-        .then((role) => {
-            if (!role) {
-                return Role.findOne({ where: { name: "user" } });
-            }
-            return role;
-        })
-        .then((role) => {
-            return User.create({
-                username: req.body.username,
-                email: req.body.email,
-                password: bcrypt.hashSync(req.body.password, 8),
-                roleId: role.id,
-                link: req.body.link,
-            });
-        })
-        .then((user) => {
-            const token = jwt.sign({ id: user.id }, config.secret, {
-                algorithm: "HS256",
-                allowInsecureKeySizes: true,
-                expiresIn: 86400,
-            });
-
-            return Role.findByPk(user.roleId).then((role) => {
-                const roleName = role ? role.name : "user";
-                const authorities = roleName;
-
-                res.status(200).send({
-                    message: "User registered successfully!",
-                    id: user.id,
-                    username: user.username,
-                    email: user.email,
-                    role: authorities,
-                    link: user.link,
-                    accessToken: token,
-                });
-            });
-        })
-        .catch((err) => {
-            res.status(500).send({ message: err.message });
-        });
+const COOKIE_SETTINGS = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production", // Использовать .env
+    sameSite: "Lax",
+    maxAge: 86400 * 1000,
+    domain: "localhost",
 };
 
-export const signin = (req, res) => {
-    User.findOne({
-        where: {
+export const signup = async (req, res) => {
+    try {
+        const roleName = req.body.role || "user";
+        const role =
+            (await Role.findOne({ where: { name: roleName } })) ||
+            (await Role.findOne({ where: { name: "user" } }));
+
+        const user = await User.create({
             username: req.body.username,
-        },
-        include: Role,
-    })
-        .then((user) => {
-            if (!user) {
-                return res.status(404).send({ message: "User Not found." });
-            }
-
-            const passwordIsValid = bcrypt.compareSync(
-                req.body.password,
-                user.password
-            );
-
-            if (!passwordIsValid) {
-                return res.status(401).send({
-                    accessToken: null,
-                    message: "Invalid Password!",
-                });
-            }
-
-            const token = jwt.sign({ id: user.id }, config.secret, {
-                algorithm: "HS256",
-                allowInsecureKeySizes: true,
-                expiresIn: 86400, // 24 h
-            });
-
-            const roleName = user.Role ? user.Role.name : "user";
-            const authorities = roleName;
-
-            res.status(200).send({
-                id: user.id,
-                username: user.username,
-                email: user.email,
-                role: authorities,
-                link: user.link,
-                accessToken: token,
-            });
-        })
-        .catch((err) => {
-            res.status(500).send({ message: err.message });
+            email: req.body.email,
+            password: bcrypt.hashSync(req.body.password, 8),
+            roleId: role.id,
+            link: req.body.link,
         });
+
+        const token = jwt.sign({ id: user.id }, config.secret, {
+            algorithm: "HS256",
+            expiresIn: 86400,
+        });
+
+        res.cookie("token", token, COOKIE_SETTINGS);
+        res.status(200).json({
+            message: "User registered successfully!",
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            role: role.name,
+            link: user.link,
+        });
+    } catch (err) {
+        console.error("Error in signup:", err);
+        res.status(500).json({ message: "Signup failed" });
+    }
+};
+
+export const signin = async (req, res) => {
+    try {
+        const user = await User.findOne({
+            where: { username: req.body.username },
+            include: Role,
+        });
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const passwordValid = bcrypt.compareSync(
+            req.body.password,
+            user.password
+        );
+
+        if (!passwordValid) {
+            return res.status(401).json({
+                message: "Invalid credentials",
+            });
+        }
+
+        const token = jwt.sign({ id: user.id }, config.secret, {
+            algorithm: "HS256",
+            expiresIn: 86400,
+        });
+
+        res.cookie("token", token, COOKIE_SETTINGS);
+
+        const responseData = {
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            role: user.Role?.name || "user",
+            link: user.link,
+        };
+
+        console.log(`User ${user.username} authenticated successfully`);
+        res.status(200).json(responseData);
+    } catch (err) {
+        console.error("Signin error:", err);
+        res.status(500).json({
+            message: "Authentication failed",
+            error: process.env.NODE_ENV === "development" ? err.message : null,
+        });
+    }
+};
+
+export const signout = (req, res) => {
+    res.clearCookie("token");
+    res.status(200).send({ message: "Sign out successfully" });
 };
