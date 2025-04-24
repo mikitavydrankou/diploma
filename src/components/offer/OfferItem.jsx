@@ -16,13 +16,11 @@ const OfferItem = ({ offer, currentTime }) => {
 
     return (
         <div className={styles.offerCard}>
-            <div>
-                <span className={styles.userBadge} c>
-                    {offer.user.username}
-                </span>
+            <div className={styles.headerRow}>
+                <span className={styles.userBadge}>{offer.user.username}</span>
+                <span className={styles.timer}>{calculateTimeLeft()}</span>
             </div>
-            <span className={styles.timer}>{calculateTimeLeft()}</span>
-            <h3>{offer.title}</h3>
+            <h3 className={styles.offerTitle}>{offer.title}</h3>
 
             <Link to={`/offer/${offer.id}`} className={styles.cardButton}>
                 Napisać

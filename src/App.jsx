@@ -9,6 +9,8 @@ import BottomNavbar from "./components/navbars/BottomNavbar";
 import ProfilePage from "./pages/ProfilePage";
 import OfferPage from "./pages/OfferPage";
 import CreateOfferPage from "./pages/CreateOfferPage";
+import { useEffect } from "react";
+import { useAuthStore } from "./store/authStore";
 
 const MainLayout = () => {
     return (
@@ -23,6 +25,12 @@ const MainLayout = () => {
 };
 
 function App() {
+    const checkAuth = useAuthStore((state) => state.checkAuth);
+
+    useEffect(() => {
+        checkAuth();
+    }, [checkAuth]);
+
     return (
         <Routes>
             <Route path="/signin" element={<SigninPage />} />

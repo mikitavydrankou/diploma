@@ -1,10 +1,13 @@
 import AddOfferButton from "../components/Buttons/AddOfferButton";
 import OfferList from "../components/offer/OfferList";
+import { useAuthStore } from "../store/authStore";
 
 const HomePage = () => {
+    const user = useAuthStore((s) => s.user);
+
     return (
         <div>
-            <AddOfferButton />
+            {user && <AddOfferButton />}
             <OfferList />
         </div>
     );

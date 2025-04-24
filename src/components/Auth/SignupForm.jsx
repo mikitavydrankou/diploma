@@ -17,7 +17,7 @@ const SignupForm = () => {
             await signup(username, email, link, password);
             navigate("/");
         } catch (err) {
-            console.error("Error signing in:", err);
+            console.error("Error signing up:", err);
         }
     };
 

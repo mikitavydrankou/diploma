@@ -2,6 +2,7 @@ import { useAuthStore } from "../store/authStore.js";
 
 const ProfilePage = () => {
     const { user, isLoading } = useAuthStore();
+    const link = user?.link;
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -18,14 +19,25 @@ const ProfilePage = () => {
             <p>
                 <strong>{user.username}</strong>
             </p>
-            <p>To jest link do twojego Facebooku:</p>
-            <p>
-                <strong>{user.link}</strong>
-            </p>
+
             <p>A to jest mail który wprowadziłeś:</p>
             <p>
                 <strong>{user.email}</strong>
             </p>
+
+            <div className="social-link">
+                <p>Twój Facebook</p>
+                <a href={user.link} target="_blank" rel="noopener noreferrer">
+                    Facebook
+                </a>
+            </div>
+
+            <button
+                onClick={() => navigator.clipboard.writeText(user.link)}
+                title="Скопировать ссылку"
+            >
+                📋
+            </button>
         </div>
     );
 };

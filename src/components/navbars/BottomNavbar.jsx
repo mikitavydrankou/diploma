@@ -5,14 +5,15 @@ import { useAuthStore } from "../../store/authStore";
 
 const BottomNavbar = () => {
     const navigate = useNavigate();
-    const { isAuthenticated, logout } = useAuthStore();
+    const { logout } = useAuthStore();
+    const user = useAuthStore((s) => s.user);
 
     const handleLogout = () => {
         logout();
         navigate("/");
     };
 
-    if (!isAuthenticated()) {
+    if (!user) {
         return (
             <div className={styles.bottomNavbar}>
                 <Link to="/signin" className={styles.navButton}>
