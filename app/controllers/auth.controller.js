@@ -21,6 +21,7 @@ const COOKIE_SETTINGS = {
 
 export const signup = async (req, res) => {
     try {
+        //TODO автоматом ставить роль юзера
         const roleName = req.body.role || "user";
         const role =
             (await Role.findOne({ where: { name: roleName } })) ||
@@ -28,7 +29,6 @@ export const signup = async (req, res) => {
 
         const user = await User.create({
             username: req.body.username,
-            email: req.body.email,
             password: bcrypt.hashSync(req.body.password, 8),
             roleId: role.id,
             link: req.body.link,
@@ -44,18 +44,38 @@ export const signup = async (req, res) => {
             message: "User registered successfully!",
             id: user.id,
             username: user.username,
-            email: user.email,
             role: role.name,
             link: user.link,
         });
     } catch (err) {
+        if (err instanceof db.Sequelize.ValidationError) {
+            const errors = err.errors.map((e) => ({
+                field: e.path,
+                message: e.message,
+            }));
+            return res.status(400).json({ errors });
+        }
+
+        if (err instanceof db.Sequelize.UniqueConstraintError) {
+            const errors = err.errors.map((e) => ({
+                field: e.path,
+                message: e.message,
+            }));
+            return res.status(400).json({ errors });
+        }
+
         console.error("Error in signup:", err);
         res.status(500).json({ message: "Signup failed" });
     }
 };
-
 export const signin = async (req, res) => {
     try {
+        if (!req.body.username || !req.body.password) {
+            return res.status(400).json({
+                message: "Username and password are required",
+            });
+        }
+
         const user = await User.findOne({
             where: { username: req.body.username },
             include: Role,
@@ -76,24 +96,35 @@ export const signin = async (req, res) => {
             });
         }
 
-        const token = jwt.sign({ id: user.id }, config.secret, {
-            algorithm: "HS256",
-            expiresIn: 86400,
-        });
+        const token = jwt.sign(
+            { id: user.id, role: user.role.name },
+            config.secret,
+            {
+                algorithm: "HS256",
+                expiresIn: 86400,
+            }
+        );
 
         res.cookie("token", token, COOKIE_SETTINGS);
 
         const responseData = {
             id: user.id,
             username: user.username,
-            email: user.email,
-            role: user.Role?.name || "user",
+            role: user.role?.name,
             link: user.link,
         };
 
         console.log(`User ${user.username} authenticated successfully`);
         res.status(200).json(responseData);
     } catch (err) {
+        if (err instanceof db.Sequelize.ValidationError) {
+            const errors = err.errors.map((e) => ({
+                field: e.path,
+                message: e.message,
+            }));
+            return res.status(400).json({ errors });
+        }
+
         console.error("Signin error:", err);
         res.status(500).json({
             message: "Authentication failed",
@@ -101,7 +132,6 @@ export const signin = async (req, res) => {
         });
     }
 };
-
 export const signout = (req, res) => {
     res.clearCookie("token");
     res.status(200).send({ message: "Sign out successfully" });

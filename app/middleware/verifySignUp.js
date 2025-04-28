@@ -3,21 +3,13 @@ import db from "../models/index.js";
 const Role = db.Role;
 const User = db.User;
 
-const checkDuplicateUsernameOrEmail = (req, res, next) => {
-    Promise.all([
-        User.findOne({ where: { username: req.body.username } }),
-        User.findOne({ where: { email: req.body.email } }),
-    ])
-        .then(([userByUsername, userByEmail]) => {
+const checkDuplicateUsername = (req, res, next) => {
+    Promise.all([User.findOne({ where: { username: req.body.username } })])
+        .then(([userByUsername]) => {
             if (userByUsername) {
                 return res
                     .status(400)
                     .send({ message: "Failed! Username is already in use!" });
-            }
-            if (userByEmail) {
-                return res
-                    .status(400)
-                    .send({ message: "Failed! Email is already in use!" });
             }
             next();
         })
@@ -50,7 +42,7 @@ const checkRolesExisted = (req, res, next) => {
 };
 
 const verifySignUp = {
-    checkDuplicateUsernameOrEmail: checkDuplicateUsernameOrEmail,
+    checkDuplicateUsername: checkDuplicateUsername,
     checkRolesExisted: checkRolesExisted,
 };
 

@@ -6,6 +6,17 @@ const USER_INCLUDE_SETTINGS = {
     attributes: ["id", "username", "link"],
 };
 
+/* 
+    - getActiveOffers: Fetches all active offers that have not expired.
+    - getArchivedOffers: Fetches all archived offers.
+
+    - createOffer: Creates a new offer with the provided details.
+    - deleteOffer: Deletes an offer by its ID.
+    - updateOffer: Updates an existing offer by its ID.
+    
+    - fetchOfferById: Fetches an offer by its ID.
+*/
+
 export const getActiveOffers = async (req, res) => {
     try {
         const offers = await Offer.findAll({
@@ -92,7 +103,11 @@ export const deleteOffer = async (req, res) => {
             return res.status(404).json({ message: "Offer not found" });
         }
 
-        if (offer.userId !== req.user.id) {
+        if (
+            offer.userId !== req.user.id &&
+            req.user.role !== "admin" &&
+            req.user.role !== "moderator"
+        ) {
             return res.status(403).json({ message: "Permission denied" });
         }
 
@@ -102,6 +117,31 @@ export const deleteOffer = async (req, res) => {
     } catch (err) {
         console.error("Deleting error:", err);
         res.status(500).json({ message: "Failed to delete offer" });
+    }
+};
+
+export const updateOffer = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const offer = await Offer.findByPk(id);
+
+        if (!offer) {
+            return res.status(404).json({ message: "Offer not found" });
+        }
+
+        if (
+            offer.userId !== req.user.id &&
+            req.user.role !== "admin" &&
+            req.user.role !== "moderator"
+        ) {
+            return res.status(403).json({ message: "Permission denied" });
+        }
+
+        const updatedOffer = await offer.update(req.body);
+        res.status(200).json(updatedOffer);
+    } catch (err) {
+        console.error("Update error:", err);
+        res.status(500).json({ message: "Failed to update offer" });
     }
 };
 
