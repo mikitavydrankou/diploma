@@ -18,7 +18,10 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 const Role = db.Role;
-db.sequelize.sync({ alter: true });
+db.sequelize
+    .sync
+    // { alter: true }
+    ();
 
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to my application." });
@@ -32,12 +35,8 @@ userRoutes(app);
 offerRoutes(app);
 
 app.listen(port, () => {
-    console.log(
-        `Example app listening on port ${port}, address http://localhost:${port}`
-    );
+    console.log(`Server running on http://localhost:${port}`);
+    console.log(process.env.test);
 });
-
-const initialRoles = ["user", "admin", "moderator"];
-initialRoles.forEach((name) => Role.findOrCreate({ where: { name } }));
 
 app.use(express.static("public"));

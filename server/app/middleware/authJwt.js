@@ -4,7 +4,6 @@ import db from "../models/index.js";
 const User = db.User;
 const Role = db.Role;
 
-// authJwt.js (измененная функция verifyToken)
 const verifyToken = (req, res, next) => {
     let token = req.cookies.token;
 
@@ -26,27 +25,26 @@ const verifyToken = (req, res, next) => {
         req.user = {
             id: user.id,
             username: user.username,
-            email: user.email,
             link: user.link,
-            role: user.role,
+            role: decoded.role,
         };
 
         next();
     });
 };
 
-const checkRole = (roleName) => {
+const checkRole = (requiredRole) => {
+    const ROLE_HIERARCHY = {
+        user: 1,
+        moderator: 2,
+        admin: 3,
+    };
+
     return (req, res, next) => {
-        User.findByPk(req.userId, {
-            include: [
-                {
-                    model: Role,
-                    as: "role",
-                },
-            ],
+        User.findByPk(req.user.id, {
+            include: [{ model: Role, as: "role" }],
         })
             .then((user) => {
-                console.log(user.roleId);
                 if (!user) {
                     return res.status(404).send({ message: "User not found!" });
                 }
@@ -57,46 +55,20 @@ const checkRole = (roleName) => {
                         .send({ message: "Role is undefined!" });
                 }
 
-                if (user.role.name === roleName) {
-                    next();
-                } else {
-                    res.status(403).send({
-                        message: `Needs ${roleName} access!`,
-                    });
-                }
-            })
-            .catch((err) => {
-                res.status(500).send({ message: err.message });
-            });
-    };
-};
+                const userRoleLevel = ROLE_HIERARCHY[user.role.name];
+                const requiredLevel = ROLE_HIERARCHY[requiredRole];
 
-const checkAnyRole = (...roleNames) => {
-    return (req, res, next) => {
-        User.findByPk(req.userId, {
-            include: [
-                {
-                    model: Role,
-                    as: "role",
-                },
-            ],
-        })
-            .then((user) => {
-                if (!user) {
-                    return res.status(404).send({ message: "User not found!" });
-                }
-
-                if (!user.Role) {
+                if (!requiredLevel) {
                     return res
-                        .status(403)
-                        .send({ message: "Role is undefined!" });
+                        .status(500)
+                        .send({ message: "Invalid role check" });
                 }
 
-                if (roleNames.includes(user.Role.name)) {
+                if (userRoleLevel >= requiredLevel) {
                     next();
                 } else {
                     res.status(403).send({
-                        message: `You need one of: ${roleNames.join(", ")}!`,
+                        message: `Requires ${requiredRole} role or higher!`,
                     });
                 }
             })
@@ -108,9 +80,7 @@ const checkAnyRole = (...roleNames) => {
 
 const authJwt = {
     verifyToken,
-    isAdmin: checkRole("admin"),
-    isModerator: checkRole("moderator"),
-    isModeratorOrAdmin: checkAnyRole("moderator", "admin"),
+    checkRole,
 };
 
 export default authJwt;
