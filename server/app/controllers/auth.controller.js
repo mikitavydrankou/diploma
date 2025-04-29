@@ -19,6 +19,9 @@ const COOKIE_SETTINGS = {
     domain: "localhost",
 };
 
+//TODO сделать аутентификацию через фейсбук
+// https://codeculturepro.medium.com/how-to-implement-login-with-facebook-in-node-js-1a9c614571c0
+
 export const signup = async (req, res) => {
     try {
         //TODO автоматом ставить роль юзера

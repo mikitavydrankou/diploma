@@ -6,7 +6,8 @@ import {
     moderatorBoard,
     users,
     leaderboard,
-    getUserOffers,
+    getUserActiveOffers,
+    getUserArchivedOffers,
     deleteUser,
     getUserById,
     updateUserRole,
@@ -52,7 +53,16 @@ const routes = function (app) {
     // User routes
     app.put("/api/users/:id/role", [authJwt.verifyToken], updateUserRole);
     app.get("/api/users", [authJwt.verifyToken], users);
-    app.get("/api/users/:userId/offers", [authJwt.verifyToken], getUserOffers);
+    app.get(
+        "/api/users/:userId/offers/active",
+        [authJwt.verifyToken],
+        getUserActiveOffers
+    );
+    app.get(
+        "/api/users/:userId/offers/archived",
+        [authJwt.verifyToken],
+        getUserArchivedOffers
+    );
     app.get("/api/leaderboard", leaderboard);
     app.get("/api/users/:id", [authJwt.verifyToken], getUserById);
     app.delete(
