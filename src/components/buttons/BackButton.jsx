@@ -1,25 +1,36 @@
 import { useNavigate } from "react-router-dom";
-import styles from "./styles/Buttons.module.css";
+import { IconButton } from "@mui/material";
+import ArrowIcon from "@mui/icons-material/ArrowBackIosNew";
 
 const BackButton = () => {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const goBack = () => {
-    if (window.history.state && window.history.state.idx > 0) {
-      navigate(-1);
-    } else {
-      navigate("/");
-    }
-  };
+    const goBack = () => {
+        window.history.length > 1 ? navigate(-1) : navigate("/");
+    };
 
-  return (
-    <button
-      onClick={goBack}
-      className={`${styles.button} ${styles.secondaryButton} ${styles.withIcon}`}
-    >
-      Zamknij
-    </button>
-  );
+    return (
+        <IconButton
+            onClick={goBack}
+            sx={{
+                position: "fixed",
+                top: 16,
+                right: 16,
+                zIndex: 1200,
+                backgroundColor: "rgba(0, 0, 0, 0.1)",
+                "&:hover": {
+                    backgroundColor: "rgba(0, 0, 0, 0.2)",
+                },
+            }}
+        >
+            <ArrowIcon
+                sx={{
+                    fontSize: 28,
+                    color: "text.primary",
+                }}
+            />
+        </IconButton>
+    );
 };
 
 export default BackButton;

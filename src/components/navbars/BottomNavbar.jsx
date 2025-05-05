@@ -1,60 +1,66 @@
-import * as React from "react";
+import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../../store/actions/authActions";
-import styles from "./styles/Navbar.module.css";
+import { useAuthStore } from "../../store/authStore";
+import PersonIcon from "@mui/icons-material/Person";
+import HomeIcon from "@mui/icons-material/Home";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 const BottomNavbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { token } = useSelector((state) => state.auth);
+    const navigate = useNavigate();
+    const { logout, user } = useAuthStore();
 
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate("/");
-    setIsMenuOpen(false);
-  };
+    const handleLogout = () => {
+        logout();
+        navigate("/");
+    };
 
-  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
-
-  if (!token) {
     return (
-      <div className={styles.bottomNavbar}>
-        <Link to="/login" className={styles.navButton}>
-          Login
-        </Link>
-      </div>
-    );
-  }
-
-  return (
-    <div className={styles.bottomNavbar}>
-      <Link to="/profile" className={styles.navItem}>
-        Ja
-      </Link>
-      <Link to="/" className={styles.navItem}>
-        Oferty
-      </Link>
-      <div className={styles.dropdown}>
-        <button
-          className={styles.menuButton}
-          onClick={toggleMenu}
-          aria-expanded={isMenuOpen}
+        <Paper
+            sx={{
+                position: "fixed",
+                bottom: 0,
+                left: 0,
+                right: 0,
+                zIndex: 999,
+            }}
         >
-          - - -
-        </button>
-
-        {isMenuOpen && (
-          <div className={styles.dropdownMenu}>
-            <button className={styles.menuItem} onClick={handleLogout}>
-              Logout
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
-  );
+            <BottomNavigation showLabels>
+                {user
+                    ? // Явный массив элементов для авторизованного пользователя
+                      [
+                          <BottomNavigationAction
+                              key="profile"
+                              component={Link}
+                              to="/profile"
+                              label="Profile"
+                              icon={<PersonIcon />}
+                          />,
+                          <BottomNavigationAction
+                              key="home"
+                              component={Link}
+                              to="/"
+                              label="Offers"
+                              icon={<HomeIcon />}
+                          />,
+                          <BottomNavigationAction
+                              key="logout"
+                              label="Logout"
+                              icon={<ExitToAppIcon />}
+                              onClick={handleLogout}
+                          />,
+                      ]
+                    : // Массив с одним элементом для неавторизованного
+                      [
+                          <BottomNavigationAction
+                              key="signin"
+                              component={Link}
+                              to="/signin"
+                              label="Signin"
+                          />,
+                      ]}
+            </BottomNavigation>
+        </Paper>
+    );
 };
 
 export default BottomNavbar;

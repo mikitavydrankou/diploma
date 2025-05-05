@@ -1,48 +1,47 @@
-import styles from "./styles/Offer.module.css";
-import OfferItem from "./OfferItem";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useOffers } from "../../api/offerQueries.js";
+import OfferItem from "./OfferItem.jsx";
+import { Grid, Box } from "@mui/material";
 
-function OfferList() {
-  const [offers, setOffers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [time, setTime] = useState(Date.now());
+const OfferList = () => {
+    const { data, isLoading, error } = useOffers();
+    const [time, setTime] = useState(Date.now());
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTime(Date.now());
-    }, 60 * 1000);
-    return () => clearInterval(timer);
-  }, []);
+    useEffect(() => {
+        const timer = setInterval(() => setTime(Date.now()), 60000);
+        return () => clearInterval(timer);
+    }, []);
 
-  useEffect(() => {
-    const fetchOffers = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:3000/api/offers/active"
-        );
-        setOffers(response.data);
-      } catch (err) {
-        console.error("Fetch error:", err);
-        setOffers([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchOffers();
-  }, []);
+    if (isLoading) return <p>Loading offers...</p>;
+    if (error) return <p>Error: {error.message}</p>;
 
-  if (loading) {
-    return <div className={styles.loading}>Ładuję listę ofert...</div>;
-  }
-
-  return (
-    <div className={styles.offerList}>
-      {offers.map((offer) => (
-        <OfferItem key={offer.id} offer={offer} currentTime={time} />
-      ))}
-    </div>
-  );
-}
+    return (
+        <Box
+            sx={{
+                p: 1,
+                maxWidth: 1200,
+                mx: "auto",
+                width: "100%",
+            }}
+        >
+            <Grid container spacing={3}>
+                {data?.map((offer) => (
+                    <Grid
+                        item
+                        key={offer.id}
+                        xs={4}
+                        sm={3}
+                        md={2}
+                        sx={{
+                            maxWidth: 2,
+                        }}
+                    >
+                        <OfferItem offer={offer} currentTime={time} />
+                    </Grid>
+                ))}
+            </Grid>
+        </Box>
+    );
+};
 
 export default OfferList;
