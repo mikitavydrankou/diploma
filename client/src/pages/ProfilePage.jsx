@@ -1,11 +1,52 @@
-// import { useSelector } from "react-redux";
+import { useAuthStore } from "../store/authStore.js";
+import { Container, Box, Typography, Button, Chip, Stack } from "@mui/material";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
-// TODO Profile
 const ProfilePage = () => {
-  // const user = useSelector((state) =>
-  //   state.auth.user.find((item) => item.id === Number())
-  // );
+    const { user, isLoading } = useAuthStore();
 
-  return <div>hi</div>;
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+
+    if (!user) {
+        return <div>Please log in to view your profile</div>;
+    }
+
+    return (
+        <Container maxWidth="md" sx={{ py: 4 }}>
+            <Stack alignItems="center">
+                <Typography variant="h3" gutterBottom>
+                    Twój profil
+                </Typography>
+
+                <Typography variant="h4" gutterBottom>
+                    {user.username}
+                </Typography>
+            </Stack>
+
+            <Stack spacing={3} alignItems="center">
+                <Button
+                    href={user?.link}
+                    target="_blank"
+                    variant="outlined"
+                    sx={{ mt: 1 }}
+                    fullWidth
+                >
+                    Profil Facebook
+                </Button>
+
+                <Button
+                    variant="outlined"
+                    startIcon={<ContentCopyIcon />}
+                    onClick={() => navigator.clipboard.writeText(user.link)}
+                    fullWidth
+                >
+                    Skopiuj link
+                </Button>
+            </Stack>
+        </Container>
+    );
 };
+
 export default ProfilePage;

@@ -1,40 +1,116 @@
-import styles from "./styles/Offer.module.css";
+import { Card, CardContent, Typography, Button, Box } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useAuthStore } from "../../store/authStore";
 
 const OfferItem = ({ offer, currentTime }) => {
-  const calculateTimeLeft = () => {
-    const expirationDate = new Date(offer.expiresAt);
-    const diff = expirationDate - currentTime;
+    const calculateTimeLeft = () => {
+        const expirationDate = new Date(offer.expiresAt);
+        const diff = expirationDate - currentTime;
 
-    if (diff <= 0) return "Left";
+        if (diff <= 0) return "Left";
 
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
 
-    return `${hours}ч ${minutes.toString().padStart(2, "0")}м`;
-  };
+        return `${hours}ч ${minutes.toString().padStart(2, "0")}м`;
+    };
 
-  return (
-    <div className={styles.offerCard}>
-      <div className={styles.cardHeader}>
-        <span className={styles.userBadge}>
-          {offer.user.username || "Anonymous"}
-        </span>
-        <span className={styles.timer}>
-          <svg className={styles.timerIcon} viewBox="0 0 24 24">
-            <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z" />
-          </svg>
-          {calculateTimeLeft()}
-        </span>
-      </div>
+    const user = useAuthStore((s) => s.user);
 
-      <h3 className={styles.offerTitle}>{offer.title}</h3>
+    return (
+        <Box
+            sx={{
+                width: "100%",
+                maxWidth: 300,
+                minWidth: 140,
+                margin: "0 auto",
+                height: 0,
+                paddingTop: "100%",
+                position: "relative",
+            }}
+        >
+            <Card
+                sx={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    borderRadius: 2,
+                    boxShadow: 3,
+                    overflow: "hidden",
+                    transition: "transform 0.3s, box-shadow 0.3s",
+                    "&:hover": {
+                        transform: "translateY(-4px)",
+                        boxShadow: 6,
+                    },
+                }}
+            >
+                <CardContent
+                    sx={{
+                        flex: 1,
+                        display: "flex",
+                        flexDirection: "column",
+                        p: 2,
+                        overflow: "hidden",
+                    }}
+                >
+                    <Box
+                        display="flex"
+                        justifyContent="space-between"
+                        mb={1}
+                        minHeight={24}
+                    >
+                        <Typography
+                            variant="caption"
+                            color="text.secondary"
+                            noWrap
+                            sx={{ maxWidth: "60%" }}
+                        >
+                            {offer.user.username}
+                        </Typography>
+                        <Typography variant="caption" color="text.secondary">
+                            {calculateTimeLeft()}
+                        </Typography>
+                    </Box>
 
-      <Link to={`/offer/${offer.id}`} className={styles.cardButton}>
-        Napisać
-      </Link>
-    </div>
-  );
+                    <Typography
+                        variant="body1"
+                        sx={{
+                            flexGrow: 1,
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            display: "-webkit-box",
+                            WebkitLineClamp: 3,
+                            WebkitBoxOrient: "vertical",
+                            fontSize: "0.9rem",
+                            lineHeight: 1.3,
+                            mb: 1,
+                        }}
+                    >
+                        {offer.title}
+                    </Typography>
+
+                    {/* Кнопка */}
+                    <Button
+                        component={Link}
+                        to={user ? `/offer/${offer.id}` : "/signin"}
+                        variant="contained"
+                        size="small"
+                        sx={{
+                            mt: "auto",
+                            py: 0.5,
+                            fontSize: "0.75rem",
+                        }}
+                    >
+                        Napisać
+                    </Button>
+                </CardContent>
+            </Card>
+        </Box>
+    );
 };
 
 export default OfferItem;

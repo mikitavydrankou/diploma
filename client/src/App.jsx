@@ -1,49 +1,67 @@
-import styles from "./Layout.module.css";
+// App.jsx
+import { CssBaseline, Container } from "@mui/material";
 import { Routes, Route, Outlet } from "react-router-dom";
-
-import RegisterPage from "./pages/auth/RegisterPage";
-import LoginPage from "./pages/auth/LoginPage";
-import Homepage from "./pages/Homepage";
-import ProfilePage from "./pages/ProfilePage";
-import HistoryPage from "./pages/HistoryPage";
-// import PrivateRoute from "./pages/PrivateRoute";
-// import PrivatePage from "./pages/PrivatePage";
+import { useEffect } from "react";
+import HomePage from "./pages/Homepage";
+import SigninPage from "./pages/authPages/SigninPage";
+import SignupPage from "./pages/authPages/SignupPage";
 import TopNavbar from "./components/navbars/TopNavbar";
 import BottomNavbar from "./components/navbars/BottomNavbar";
-import CreateOfferPage from "./pages/CreateOfferPage";
+import ProfilePage from "./pages/ProfilePage";
 import OfferPage from "./pages/OfferPage";
+import { CreateOfferPage } from "./pages/CreateOfferPage";
+import { useAuthStore } from "./store/authStore";
 
 const MainLayout = () => {
-  return (
-    <div className={styles.appContainer}>
-      <TopNavbar />
-      <main className={styles.content}>
-        <Outlet />
-      </main>
-      <BottomNavbar />
-    </div>
-  );
+    return (
+        <div
+            style={{
+                display: "flex",
+                flexDirection: "column",
+                minHeight: "100vh",
+            }}
+        >
+            <TopNavbar />
+            <Container
+                component="main"
+                sx={{
+                    flex: 1,
+                    py: 4,
+                    mt: { xs: "56px", sm: "64px" },
+                    mb: { xs: "56px", sm: "64px" },
+                    px: { xs: 2, sm: 3 },
+                }}
+            >
+                <Outlet />
+            </Container>
+            <BottomNavbar />
+        </div>
+    );
 };
 
-export default function App() {
-  return (
-    <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="/createoffer" element={<CreateOfferPage />} />
-      <Route path="/offer/:offerId" element={<OfferPage />} />
+function App() {
+    const checkAuth = useAuthStore((state) => state.checkAuth);
 
-      {/* Все остальные страницы с layout */}
-      <Route element={<MainLayout />}>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/history" element={<HistoryPage />} />
+    useEffect(() => {
+        checkAuth();
+    }, [checkAuth]);
 
-        {/* Будущие защищенные маршруты */}
-        {/* <Route element={<PrivateRoute />}>
-          <Route path="/private" element={<PrivatePage />} />
-        </Route> */}
-      </Route>
-    </Routes>
-  );
+    return (
+        <>
+            <CssBaseline />
+            <Routes>
+                <Route path="/signin" element={<SigninPage />} />
+                <Route path="/signup" element={<SignupPage />} />
+                <Route path="/offer/:id" element={<OfferPage />} />
+
+                <Route element={<MainLayout />}>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/profile" element={<ProfilePage />} />
+                    <Route path="/offer/create" element={<CreateOfferPage />} />
+                </Route>
+            </Routes>
+        </>
+    );
 }
+
+export default App;

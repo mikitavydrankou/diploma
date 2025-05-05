@@ -1,14 +1,15 @@
-import "./styles/Homepage.module.css";
-import CreateOfferForm from "../components/forms/CreateOfferForm";
-import BackButton from "../components/buttons/BackButton";
+import { Container, Typography } from "@mui/material";
+import BackButton from "../components/Buttons/BackButton";
+import OfferForm from "../components/Offer/OfferForm";
 
 export const CreateOfferPage = () => {
-  return (
-    <div className="createOfferPage">
-      <BackButton />
-      <CreateOfferForm />
-    </div>
-  );
+    return (
+        <Container maxWidth="md" sx={{ py: 4 }}>
+            <BackButton />
+            <Typography variant="h5" gutterBottom sx={{ mb: 4 }}>
+                Nowa oferta
+            </Typography>
+            <OfferForm />
+        </Container>
+    );
 };
-
-export default CreateOfferPage;

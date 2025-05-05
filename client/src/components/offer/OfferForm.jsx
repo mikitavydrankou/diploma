@@ -1,0 +1,163 @@
+import {
+    Container,
+    TextField,
+    Select,
+    MenuItem,
+    Button,
+    Typography,
+    Box,
+} from "@mui/material";
+import { useState } from "react";
+import { useCreateOffer } from "../../api/offerQueries";
+
+const OfferForm = () => {
+    const [formData, setFormData] = useState({
+        place: "",
+        title: "",
+        description: "",
+        ttlHours: "",
+        counterOffer: "",
+    });
+
+    const LIMITS = {
+        title: 20,
+        description: 100,
+        counterOffer: 40,
+    };
+
+    const { mutate, isPending, isError, error, isSuccess } = useCreateOffer();
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        mutate(formData);
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+
+        if (name === "title" && value.length > LIMITS.title) return;
+        if (name === "description" && value.length > LIMITS.description) return;
+        if (name === "counterOffer" && value.length > LIMITS.counterOffer)
+            return;
+
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    };
+
+    return (
+        <Container maxWidth="sm" sx={{ py: 4 }}>
+            <Box
+                component="form"
+                onSubmit={handleSubmit}
+                sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
+                }}
+            >
+                <Select
+                    name="place"
+                    value={formData.place}
+                    onChange={handleChange}
+                    required
+                    displayEmpty
+                    fullWidth
+                >
+                    <MenuItem value="" disabled>
+                        Wybierz akademik
+                    </MenuItem>
+                    {[
+                        "DS1",
+                        "DS2",
+                        "DS3",
+                        "DS4",
+                        "DS6",
+                        "DS7",
+                        "DS8",
+                        "DS119",
+                    ].map((d) => (
+                        <MenuItem key={d} value={d}>
+                            {d}
+                        </MenuItem>
+                    ))}
+                </Select>
+
+                <TextField
+                    name="title"
+                    label="Tytuł"
+                    value={formData.title}
+                    onChange={handleChange}
+                    required
+                    fullWidth
+                    inputProps={{ maxLength: LIMITS.title }}
+                    helperText={`${formData.title.length}/${LIMITS.title}`}
+                />
+
+                <TextField
+                    name="description"
+                    label="Opis"
+                    value={formData.description}
+                    onChange={handleChange}
+                    required
+                    multiline
+                    rows={3}
+                    fullWidth
+                    inputProps={{ maxLength: LIMITS.description }}
+                    helperText={`${formData.description.length}/${LIMITS.description}`}
+                />
+
+                <TextField
+                    type="number"
+                    name="ttlHours"
+                    label="Czas trwania (w godzinach)"
+                    value={formData.ttlHours}
+                    onChange={handleChange}
+                    required
+                    fullWidth
+                    inputProps={{
+                        min: 1,
+                        max: 12,
+                        step: 1,
+                    }}
+                />
+
+                <TextField
+                    name="counterOffer"
+                    label="Propozycja"
+                    value={formData.counterOffer}
+                    onChange={handleChange}
+                    required
+                    fullWidth
+                    inputProps={{ maxLength: LIMITS.counterOffer }}
+                    helperText={`${formData.counterOffer.length}/${LIMITS.counterOffer}`}
+                />
+
+                <Button
+                    type="submit"
+                    variant="contained"
+                    disabled={isPending}
+                    size="large"
+                    sx={{ mt: 2 }}
+                >
+                    {isPending ? "Wysyłanie..." : "Wyślij"}
+                </Button>
+
+                {isError && (
+                    <Typography color="error" sx={{ mt: 2 }}>
+                        Błąd: {error.response?.data?.message || error.message}
+                    </Typography>
+                )}
+
+                {isSuccess && (
+                    <Typography color="success.main" sx={{ mt: 2 }}>
+                        Oferta została pomyślnie dodana!
+                    </Typography>
+                )}
+            </Box>
+        </Container>
+    );
+};
+
+export default OfferForm;
