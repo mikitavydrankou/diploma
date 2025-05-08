@@ -1,10 +1,9 @@
 const config = {
-    HOST: "localhost",
-    USER: "root",
-    PASSWORD: "1234qwer",
-    DB: "diploma",
-    dialect: "mysql",
-    timezone: "+02:00",
+    HOST: process.env.DB_HOST,
+    USER: process.env.DB_USER,
+    PASSWORD: process.env.DB_PASSWORD,
+    DB: process.env.DB_NAME,
+    dialect: process.env.DB_DIALECT,
 };
 
 export default config;

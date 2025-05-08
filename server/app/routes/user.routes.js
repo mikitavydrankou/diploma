@@ -16,18 +16,18 @@ import {
 
 const routes = function (app) {
     //tests
-    app.get("/api/test/all", allAccess);
-    app.get("/api/test/user", [authJwt.verifyToken], userBoard);
-    app.get(
-        "/api/test/mod",
-        [authJwt.verifyToken, authJwt.checkRole("moderator")],
-        moderatorBoard
-    );
-    app.get(
-        "/api/test/admin",
-        [authJwt.verifyToken, authJwt.checkRole("admin")],
-        adminBoard
-    );
+    // app.get("/api/test/all", allAccess);
+    // app.get("/api/test/user", [authJwt.verifyToken], userBoard);
+    // app.get(
+    //     "/api/test/mod",
+    //     [authJwt.verifyToken, authJwt.checkRole("moderator")],
+    //     moderatorBoard
+    // );
+    // app.get(
+    //     "/api/test/admin",
+    //     [authJwt.verifyToken, authJwt.checkRole("admin")],
+    //     adminBoard
+    // );
 
     /*
     Routes:

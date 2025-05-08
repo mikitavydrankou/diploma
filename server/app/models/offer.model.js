@@ -40,7 +40,7 @@ const offerModel = (sequelize, Sequelize) => {
         },
         counter_offer: {
             type: Sequelize.STRING,
-            defaultValue: "Oczekuje na propozycje",
+            defaultValue: "Oczekuje na propozycje w FB",
         },
         ttlHours: {
             type: Sequelize.INTEGER,
