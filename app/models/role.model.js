@@ -25,7 +25,6 @@ const roleModel = (sequelize, Sequelize) => {
                                     { name: "user" },
                                     { name: "moderator" },
                                     { name: "admin" },
-                                    { name: "banned" },
                                 ],
                                 { validate: true }
                             );

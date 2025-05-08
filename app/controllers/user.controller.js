@@ -24,12 +24,15 @@ export const allAccess = (req, res) => {
 export const userBoard = (req, res) => {
     res.status(200).send("User content.");
 };
+
 export const adminBoard = (req, res) => {
     res.status(200).send("Admin content.");
 };
+
 export const moderatorBoard = (req, res) => {
     res.status(200).send("Moderator content.");
 };
+
 export const leaderboard = async (req, res) => {
     try {
         const oneWeekAgo = new Date();
@@ -70,6 +73,7 @@ export const leaderboard = async (req, res) => {
         });
     }
 };
+
 export const users = async (req, res) => {
     try {
         if (req.user.role !== "admin" && req.user.role !== "moderator") {
@@ -91,11 +95,11 @@ export const users = async (req, res) => {
         res.status(500).json({ message: "Error while getting users" });
     }
 };
+
 export const getUserActiveOffers = async (req, res) => {
     try {
         const { userId } = req.params;
 
-        // Проверка прав доступа
         if (
             req.user.id !== Number(userId) &&
             req.user.role !== "admin" &&
@@ -104,14 +108,13 @@ export const getUserActiveOffers = async (req, res) => {
             return res.status(403).json({ message: "Permission denied" });
         }
 
-        // Поиск активных офферов пользователя
         const offers = await db.Offer.findAll({
             where: {
                 userId,
                 status: "active",
                 expiresAt: { [db.Sequelize.Op.gt]: new Date() },
             },
-            include: [USER_INCLUDE_SETTINGS], // Используйте общие настройки из offer.controller.js
+            include: [USER_INCLUDE_SETTINGS],
             order: [["createdAt", "DESC"]],
         });
 
@@ -121,11 +124,11 @@ export const getUserActiveOffers = async (req, res) => {
         res.status(500).json({ message: "Failed to get user active offers" });
     }
 };
+
 export const getUserArchivedOffers = async (req, res) => {
     try {
         const { userId } = req.params;
 
-        // Проверка прав доступа
         if (
             req.user.id !== Number(userId) &&
             req.user.role !== "admin" &&
@@ -134,13 +137,12 @@ export const getUserArchivedOffers = async (req, res) => {
             return res.status(403).json({ message: "Permission denied" });
         }
 
-        // Поиск архивных офферов пользователя
         const offers = await db.Offer.findAll({
             where: {
                 userId,
                 status: "archived",
             },
-            include: [USER_INCLUDE_SETTINGS], // Используйте общие настройки из offer.controller.js
+            include: [USER_INCLUDE_SETTINGS],
             order: [["createdAt", "DESC"]],
         });
 
@@ -150,6 +152,7 @@ export const getUserArchivedOffers = async (req, res) => {
         res.status(500).json({ message: "Failed to get user archived offers" });
     }
 };
+
 export const getUserById = async (req, res) => {
     try {
         const { id } = req.params;
@@ -175,6 +178,7 @@ export const getUserById = async (req, res) => {
         res.status(500).json({ message: "Failed to get user" });
     }
 };
+
 export const deleteUser = async (req, res) => {
     try {
         const { id } = req.params;
@@ -193,6 +197,7 @@ export const deleteUser = async (req, res) => {
         res.status(500).json({ message: "Failed to delete user" });
     }
 };
+
 export const updateUser = async (req, res) => {
     try {
         const { id } = req.params;
@@ -216,6 +221,7 @@ export const updateUser = async (req, res) => {
         res.status(500).json({ message: "Failed to update profile" });
     }
 };
+
 export const updateUserRole = async (req, res) => {
     try {
         const { id } = req.params;
