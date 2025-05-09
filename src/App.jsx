@@ -1,4 +1,3 @@
-// App.jsx
 import { CssBaseline, Container } from "@mui/material";
 import { Routes, Route, Outlet } from "react-router-dom";
 import { useEffect } from "react";

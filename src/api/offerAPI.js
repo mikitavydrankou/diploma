@@ -1,8 +1,7 @@
-// api/offerAPI.js
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: "http://localhost:3000/api",
+    baseURL: "http://209.38.205.101:3000/api",
     withCredentials: true,
 });
 
