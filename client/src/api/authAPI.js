@@ -1,19 +1,19 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: "http://localhost:3000/api/auth",
+    baseURL: "http://209.38.205.101:3000/api/auth",
     withCredentials: true,
 });
 
-export const signin = (username, password) => {
-    console.log("signin request sent");
-    const response = api.post(`/signin`, { username, password });
+export const signin = async (username, password) => {
+    const response = await api.post(`/signin`, { username, password });
+    console.log("signin response: ", response);
     return response;
 };
 
-export const signup = (username, link, password) => {
-    console.log("signup request sent");
-    const response = api.post(`/signup`, { username, link, password });
+export const signup = async (username, link, password) => {
+    const response = await api.post(`/signup`, { username, link, password });
+    console.log("signup response: ", response);
     return response;
 };
 

@@ -1,4 +1,3 @@
-// theme.js (обновленная версия)
 import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
