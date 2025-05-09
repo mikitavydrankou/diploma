@@ -13,22 +13,21 @@ const Op = db.Sequelize.Op;
 
 const COOKIE_SETTINGS = {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // Использовать .env
+    secure: process.env.NODE_ENV === "production",
     sameSite: "Lax",
     maxAge: 86400 * 1000,
-    domain: "localhost",
 };
 
 export const signup = async (req, res) => {
     try {
-        const roleName = "user";
-        const role =
-            (await Role.findOne({ where: { name: roleName } })) ||
-            (await Role.findOne({ where: { name: "user" } }));
+        const role = await Role.findOne({ where: { name: "user" } });
+        if (!role) {
+            return res.status(500).json({ message: "Role 'user' not found" });
+        }
 
         const user = await User.create({
             username: req.body.username,
-            password: bcrypt.hashSync(req.body.password, 8),
+            password: await bcrypt.hash(req.body.password, 8),
             roleId: role.id,
             link: req.body.link,
         });
@@ -47,23 +46,16 @@ export const signup = async (req, res) => {
             link: user.link,
         });
     } catch (err) {
-        if (err instanceof db.Sequelize.ValidationError) {
+        if (
+            err instanceof db.Sequelize.ValidationError ||
+            err instanceof db.Sequelize.UniqueConstraintError
+        ) {
             const errors = err.errors.map((e) => ({
                 field: e.path,
                 message: e.message,
             }));
             return res.status(400).json({ errors });
         }
-
-        if (err instanceof db.Sequelize.UniqueConstraintError) {
-            const errors = err.errors.map((e) => ({
-                field: e.path,
-                message: e.message,
-            }));
-            return res.status(400).json({ errors });
-        }
-
-        console.error("Error in signup:", err);
         res.status(500).json({ message: "Signup failed" });
     }
 };
@@ -123,8 +115,6 @@ export const signin = async (req, res) => {
             }));
             return res.status(400).json({ errors });
         }
-
-        console.error("Signin error:", err);
         res.status(500).json({
             message: "Authentication failed",
             error: process.env.NODE_ENV === "development" ? err.message : null,
