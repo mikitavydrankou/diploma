@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useOfferById } from "../api/offerQueries";
 import BackButton from "../components/buttons/BackButton";
-import { DeleteButton } from "../components/Buttons/DeleteOfferButton";
+import { DeleteButton } from "../components/buttons/DeleteOfferButton";
 import { useAuthStore } from "../store/authStore";
 import {
     Container,

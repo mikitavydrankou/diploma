@@ -1,6 +1,6 @@
 import { Container, Typography } from "@mui/material";
-import BackButton from "../components/Buttons/BackButton";
-import OfferForm from "../components/Offer/OfferForm";
+import BackButton from "../components/buttons/BackButton";
+import OfferForm from "../components/offer/OfferForm";
 
 export const CreateOfferPage = () => {
     return (

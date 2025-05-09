@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
-import AddOfferButton from "../components/Buttons/AddOfferButton";
-import OfferList from "../components/Offer/OfferList";
+import AddOfferButton from "../components/buttons/AddOfferButton";
+import OfferList from "../components/offer/OfferList";
 import { useAuthStore } from "../store/authStore";
 
 const HomePage = () => {
