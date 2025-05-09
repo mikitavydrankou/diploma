@@ -44,7 +44,7 @@ const TopNavbar = () => {
                         fontWeight: 600,
                     }}
                 >
-                    MyApp
+                    TradeKortowo
                 </Typography>
 
                 {user && isAdminOrModerator() && (
