@@ -14,7 +14,7 @@ const Op = db.Sequelize.Op;
 const COOKIE_SETTINGS = {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "Lax",
+    sameSite: "None",
     maxAge: 86400 * 1000,
 };
 
