@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: "http://209.38.205.101:3000/api/auth",
+    baseURL: "https://kortowo.ninja/api/auth",
     withCredentials: true,
 });
 
