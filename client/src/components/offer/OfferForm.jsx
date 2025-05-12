@@ -22,7 +22,7 @@ const OfferForm = () => {
     const LIMITS = {
         title: 20,
         description: 100,
-        counterOffer: 40,
+        counter_offer: 40,
     };
 
     const { mutate, isPending, isError, error, isSuccess } = useCreateOffer();

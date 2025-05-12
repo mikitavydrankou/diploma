@@ -2,27 +2,34 @@ import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
     palette: {
+        mode: "dark",
         primary: {
-            main: "#1a1a1a",
-            contrastText: "#fff",
+            main: "#ff3c3c", // яркий красный для кнопок, ссылок и т.п.
+            contrastText: "#ffffff",
         },
         secondary: {
-            main: "#3b82f6",
-            light: "#93c5fd",
+            main: "#9a1d1d", // более глубокий красный для вторичных элементов
+            light: "#ff6b6b", // акценты при наведении
         },
         background: {
-            default: "#f5f5f5",
-            paper: "#ffffff",
+            default: "#121212", // фон всего приложения
+            paper: "#1e1e1e", // карточки и модальные окна
         },
         text: {
-            primary: "#1a1a1a",
-            secondary: "#4b5563",
+            primary: "#f1f1f1",
+            secondary: "#aaaaaa",
         },
         error: {
-            main: "#ef4444",
+            main: "#ff4d4f", // можно оставить таким
         },
         success: {
             main: "#22c55e",
+        },
+        warning: {
+            main: "#facc15",
+        },
+        info: {
+            main: "#3b82f6",
         },
     },
     typography: {
@@ -32,14 +39,14 @@ const theme = createTheme({
         button: {
             textTransform: "none",
             fontWeight: 600,
-            letterSpacing: "0.025em",
+            letterSpacing: "0.05em",
         },
         h5: {
-            fontWeight: 600,
+            fontWeight: 700,
         },
     },
     shape: {
-        borderRadius: 8,
+        borderRadius: 10,
     },
     components: {
         MuiCssBaseline: {
@@ -47,6 +54,8 @@ const theme = createTheme({
                 body: {
                     minHeight: "100vh",
                     overflowX: "hidden",
+                    backgroundColor: "#121212",
+                    color: "#f1f1f1",
                     display: "flex",
                     flexDirection: "column",
                 },
@@ -60,18 +69,27 @@ const theme = createTheme({
         MuiButton: {
             styleOverrides: {
                 root: {
-                    borderRadius: 8,
-                    padding: "8px 16px",
+                    borderRadius: 10,
+                    padding: "10px 20px",
+                    fontWeight: 600,
+                    background: "linear-gradient(135deg, #ff3c3c, #9a1d1d)",
+                    color: "#fff",
+                    "&:hover": {
+                        background: "linear-gradient(135deg, #ff6b6b, #b22222)",
+                    },
                 },
             },
         },
         MuiCard: {
             styleOverrides: {
                 root: {
+                    backgroundColor: "#1e1e1e",
+                    color: "#f1f1f1",
+                    boxShadow: "0 4px 10px rgba(0, 0, 0, 0.5)",
                     transition: "transform 0.2s, box-shadow 0.2s",
                     "&:hover": {
-                        transform: "translateY(-2px)",
-                        boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
+                        transform: "translateY(-3px)",
+                        boxShadow: "0 6px 12px rgba(255, 60, 60, 0.2)",
                     },
                 },
             },

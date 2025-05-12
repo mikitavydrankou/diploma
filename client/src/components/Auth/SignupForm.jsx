@@ -12,6 +12,9 @@ import {
     Alert,
 } from "@mui/material";
 
+//TODO Подтверждение пароля
+//TODO Кнопка перехода в fb
+
 const SignupForm = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
