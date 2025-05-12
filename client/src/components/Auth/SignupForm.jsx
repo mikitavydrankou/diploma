@@ -10,10 +10,9 @@ import {
     Stack,
     CircularProgress,
     Alert,
+    useMediaQuery,
+    useTheme,
 } from "@mui/material";
-
-//TODO Подтверждение пароля
-//TODO Кнопка перехода в fb
 
 const SignupForm = () => {
     const [username, setUsername] = useState("");
@@ -21,6 +20,9 @@ const SignupForm = () => {
     const [password, setPassword] = useState("");
     const { signup, isLoading, error } = useAuthStore();
     const navigate = useNavigate();
+
+    const theme = useTheme();
+    const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -34,7 +36,7 @@ const SignupForm = () => {
 
     return (
         <Box sx={{ maxWidth: 400, mx: "auto", mt: 8, p: 3 }}>
-            <Typography variant="h4" component="h1" gutterBottom align="center">
+            <Typography variant="h5" component="h1" gutterBottom align="center">
                 Załóż konto!
             </Typography>
 
@@ -42,7 +44,7 @@ const SignupForm = () => {
                 <Stack spacing={3}>
                     <TextField
                         fullWidth
-                        label="Przydomek"
+                        label="Nickname"
                         variant="outlined"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
@@ -59,15 +61,44 @@ const SignupForm = () => {
                         required
                     />
 
-                    <Button
-                        href={"https://www.facebook.com/profile.php"}
-                        target="_blank"
-                        variant="outlined"
-                        sx={{ mt: 1 }}
-                        fullWidth
-                    >
-                        Tutaj znajdziesz swój link
-                    </Button>
+                    {isDesktop ? (
+                        <Button
+                            href={"https://www.facebook.com/profile.php"}
+                            target="_blank"
+                            variant="outlined"
+                            sx={{ mt: 1 }}
+                            fullWidth
+                        >
+                            Tutaj znajdziesz swój link
+                        </Button>
+                    ) : (
+                        <Typography
+                            variant="body2"
+                            align="left"
+                            sx={{
+                                fontSize: "0.85rem",
+                                color: "text.secondary",
+
+                                p: 1,
+                                borderRadius: 2,
+                            }}
+                        >
+                            <strong>Jak znaleźć link do profilu:</strong>
+                            <br />
+                            1. Otwórz aplikację Facebook
+                            <br />
+                            2. Przejdź do swojego profilu
+                            <br />
+                            3. Kliknij trzy kropki obok „Edytuj profil”
+                            <br />
+                            4. Wybierz „Kopiuj link do profilu” na dole
+                            <br />
+                            5. Nacisnij "„Kopiuj link" w oknie, które się
+                            otworzy
+                            <br />
+                            6. Wklej tutaj
+                        </Typography>
+                    )}
 
                     <TextField
                         fullWidth
