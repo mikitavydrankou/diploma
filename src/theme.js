@@ -4,23 +4,23 @@ const theme = createTheme({
     palette: {
         mode: "dark",
         primary: {
-            main: "#ff3c3c", // яркий красный для кнопок, ссылок и т.п.
+            main: "#ff3c3c",
             contrastText: "#ffffff",
         },
         secondary: {
-            main: "#9a1d1d", // более глубокий красный для вторичных элементов
-            light: "#ff6b6b", // акценты при наведении
+            main: "#9a1d1d",
+            light: "#ff6b6b",
         },
         background: {
-            default: "#121212", // фон всего приложения
-            paper: "#1e1e1e", // карточки и модальные окна
+            default: "#121212",
+            paper: "#1e1e1e",
         },
         text: {
             primary: "#f1f1f1",
             secondary: "#aaaaaa",
         },
         error: {
-            main: "#ff4d4f", // можно оставить таким
+            main: "#ff4d4f",
         },
         success: {
             main: "#22c55e",
