@@ -37,8 +37,8 @@ const OfferPage = () => {
                     mb: 3,
                 }}
             >
-                <BackButton />
                 {isOwner && <DeleteButton offerId={offer.id} />}
+                <BackButton />
             </Box>
 
             <Typography
