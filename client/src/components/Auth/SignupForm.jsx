@@ -17,8 +17,8 @@ import {
 
 const SignupForm = () => {
     const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
     const [link, setLink] = useState("");
+    const [password, setPassword] = useState("");
     const { signup, isLoading, error } = useAuthStore();
     const navigate = useNavigate();
 
