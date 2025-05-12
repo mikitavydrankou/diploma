@@ -34,7 +34,7 @@ const userModel = (sequelize, Sequelize) => {
             validate: {
                 isFacebookUrl(value) {
                     const facebookPattern =
-                        /^(https?:\/\/)?(www\.|m\.)?(facebook|fb)\.com\/(profile\.php\?id=\d+|[a-zA-Z0-9\.\-]+)(\/)?$/i;
+                        /^(https?:\/\/)?(www\.|m\.)?(facebook|fb)\.com\/[\S]+$/i;
 
                     if (!facebookPattern.test(value)) {
                         throw new Error(
