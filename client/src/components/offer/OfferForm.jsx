@@ -16,7 +16,7 @@ const OfferForm = () => {
         title: "",
         description: "",
         ttlHours: "",
-        counterOffer: "",
+        counter_offer: "",
     });
 
     const LIMITS = {
@@ -37,7 +37,7 @@ const OfferForm = () => {
 
         if (name === "title" && value.length > LIMITS.title) return;
         if (name === "description" && value.length > LIMITS.description) return;
-        if (name === "counterOffer" && value.length > LIMITS.counterOffer)
+        if (name === "counter_offer" && value.length > LIMITS.counter_offer)
             return;
 
         setFormData({
@@ -124,14 +124,14 @@ const OfferForm = () => {
                 />
 
                 <TextField
-                    name="counterOffer"
+                    name="counter_offer"
                     label="Propozycja"
-                    value={formData.counterOffer}
+                    value={formData.counter_offer}
                     onChange={handleChange}
                     required
                     fullWidth
-                    inputProps={{ maxLength: LIMITS.counterOffer }}
-                    helperText={`${formData.counterOffer.length}/${LIMITS.counterOffer}`}
+                    inputProps={{ maxLength: LIMITS.counter_offer }}
+                    helperText={`${formData.counter_offer.length}/${LIMITS.counter_offer}`}
                 />
 
                 <Button

@@ -25,9 +25,8 @@ const TopNavbar = () => {
         >
             <Toolbar
                 sx={{
-                    justifyContent: "space-between",
+                    justifyContent: "center",
                     height: 64,
-                    // Исправление для Grid v2
                     display: "flex",
                     flexDirection: "row",
                     alignItems: "center",
@@ -44,7 +43,7 @@ const TopNavbar = () => {
                         fontWeight: 600,
                     }}
                 >
-                    TradeKortowo
+                    Ninja na Kortowie!...
                 </Typography>
 
                 {user && isAdminOrModerator() && (
