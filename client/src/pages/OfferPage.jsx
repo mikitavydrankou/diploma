@@ -88,7 +88,7 @@ const OfferPage = () => {
                     Poszukuję:
                 </Typography>
                 <Typography
-                    variant="h6"
+                    variant="body1"
                     gutterBottom
                     sx={{
                         fontWeight: 400,
