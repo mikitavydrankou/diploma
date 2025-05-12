@@ -27,6 +27,7 @@ const OfferList = () => {
             <Grid container columns={{ xs: 4, sm: 8, md: 12 }} spacing={2}>
                 {data?.map((offer) => (
                     <Grid
+                        key={offer.id}
                         sx={{
                             gridColumn: {
                                 xs: "span 4",

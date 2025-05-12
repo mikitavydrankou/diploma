@@ -55,7 +55,11 @@ const SigninForm = () => {
                         required
                     />
 
-                    {error && <Alert severity="error">{error}</Alert>}
+                    {error && (
+                        <Alert severity="error">
+                            {error.message || JSON.stringify(error)}
+                        </Alert>
+                    )}
 
                     <Button
                         fullWidth

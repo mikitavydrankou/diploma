@@ -14,7 +14,7 @@ export const useAuthStore = create(
                 try {
                     const { data } = await signin(username, password);
                     console.log("signin data", data);
-                    set({ user: data, isLoading: false });
+                    set({ user: data, isLoading: false, error: null });
                 } catch (error) {
                     set({
                         error: error.response?.data?.message || "Signin failed",
@@ -24,16 +24,11 @@ export const useAuthStore = create(
                 }
             },
 
-            signup: async (username, email, link, password) => {
+            signup: async (username, link, password) => {
                 set({ isLoading: true, error: null });
                 try {
-                    const { data } = await signup(
-                        username,
-                        email,
-                        link,
-                        password
-                    );
-                    set({ user: data, isLoading: false });
+                    const { data } = await signup(username, link, password);
+                    set({ user: data, isLoading: false, error: null });
                 } catch (error) {
                     set({
                         error: error.response?.data?.message || "Signup failed",
@@ -49,7 +44,7 @@ export const useAuthStore = create(
                 } catch (error) {
                     console.error("Logout error:", error);
                 }
-                set({ user: null });
+                set({ user: null, error: null });
                 localStorage.removeItem("auth-storage");
                 document.cookie =
                     "token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT;";
@@ -60,9 +55,9 @@ export const useAuthStore = create(
                     const response = await checkauth();
                     console.log("checkAuth response", response);
                     if (response) {
-                        set({ user: response });
+                        set({ user: response, error: null });
                     } else {
-                        set({ user: null });
+                        set({ user: null, error: null });
                     }
                 } catch {
                     set({ user: null });
