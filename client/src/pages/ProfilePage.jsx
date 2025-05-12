@@ -18,6 +18,8 @@ const ProfilePage = () => {
             <Stack alignItems="center">
                 <Typography variant="h4" gutterBottom>
                     Masz na imię: {user.username}
+                    <br />
+                    <br />
                 </Typography>
             </Stack>
 
