@@ -38,7 +38,7 @@ const SigninForm = () => {
                 <Stack spacing={3}>
                     <TextField
                         fullWidth
-                        label="Przydomek"
+                        label="Nickname"
                         variant="outlined"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}

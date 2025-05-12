@@ -95,6 +95,20 @@ const OfferForm = () => {
                     helperText={`${formData.title.length}/${LIMITS.title}`}
                 />
 
+                <Typography
+                    variant="body2"
+                    align="left"
+                    sx={{
+                        fontSize: "0.85rem",
+                        color: "text.secondary",
+
+                        p: 1,
+                        borderRadius: 2,
+                    }}
+                >
+                    Ten napis będzie widoczny na karcie oferty
+                </Typography>
+
                 <TextField
                     name="description"
                     label="Opis"
@@ -133,6 +147,20 @@ const OfferForm = () => {
                     inputProps={{ maxLength: LIMITS.counter_offer }}
                     helperText={`${formData.counter_offer.length}/${LIMITS.counter_offer}`}
                 />
+
+                <Typography
+                    variant="body2"
+                    align="left"
+                    sx={{
+                        fontSize: "0.85rem",
+                        color: "text.secondary",
+
+                        p: 1,
+                        borderRadius: 2,
+                    }}
+                >
+                    Jak nie wiesz co wpisać, napisz n.p. "Czekam na propozycje"
+                </Typography>
 
                 <Button
                     type="submit"
