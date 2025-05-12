@@ -24,16 +24,15 @@ const OfferList = () => {
                 width: "100%",
             }}
         >
-            <Grid container spacing={3}>
+            <Grid container columns={{ xs: 4, sm: 8, md: 12 }} spacing={2}>
                 {data?.map((offer) => (
                     <Grid
-                        item
-                        key={offer.id}
-                        xs={4}
-                        sm={3}
-                        md={2}
                         sx={{
-                            maxWidth: 2,
+                            gridColumn: {
+                                xs: "span 4",
+                                sm: "span 4",
+                                md: "span 4",
+                            },
                         }}
                     >
                         <OfferItem offer={offer} currentTime={time} />

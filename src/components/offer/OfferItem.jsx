@@ -93,7 +93,6 @@ const OfferItem = ({ offer, currentTime }) => {
                         {offer.title}
                     </Typography>
 
-                    {/* Кнопка */}
                     <Button
                         component={Link}
                         to={user ? `/offer/${offer.id}` : "/signin"}
