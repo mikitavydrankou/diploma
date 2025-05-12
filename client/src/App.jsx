@@ -1,4 +1,4 @@
-import { CssBaseline, Container } from "@mui/material";
+import { CssBaseline, Container, Box } from "@mui/material";
 import { Routes, Route, Outlet } from "react-router-dom";
 import { useEffect } from "react";
 import HomePage from "./pages/Homepage";
@@ -13,11 +13,13 @@ import { useAuthStore } from "./store/authStore";
 
 const MainLayout = () => {
     return (
-        <div
-            style={{
+        <Box
+            sx={{
                 display: "flex",
                 flexDirection: "column",
                 minHeight: "100vh",
+                bgcolor: "background.default",
+                color: "text.primary",
             }}
         >
             <TopNavbar />
@@ -34,7 +36,7 @@ const MainLayout = () => {
                 <Outlet />
             </Container>
             <BottomNavbar />
-        </div>
+        </Box>
     );
 };
 

@@ -17,7 +17,7 @@ const TopNavbar = () => {
         <AppBar
             position="fixed"
             sx={{
-                bgcolor: "background.paper",
+                bgcolor: "background.default",
                 color: "text.primary",
                 borderBottom: `1px solid ${theme.palette.divider}`,
                 boxShadow: "none",
@@ -43,7 +43,7 @@ const TopNavbar = () => {
                         fontWeight: 600,
                     }}
                 >
-                    Ninja na Kortowie!...
+                    Ninja na Kortowie!... Tsss...
                 </Typography>
 
                 {user && isAdminOrModerator() && (

@@ -31,14 +31,14 @@ const SigninForm = () => {
     return (
         <Box sx={{ maxWidth: 400, mx: "auto", mt: 8, p: 3 }}>
             <Typography variant="h4" component="h1" gutterBottom align="center">
-                Welcome Back
+                Siema!
             </Typography>
 
             <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
                 <Stack spacing={3}>
                     <TextField
                         fullWidth
-                        label="Username"
+                        label="Przydomek"
                         variant="outlined"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
@@ -47,7 +47,7 @@ const SigninForm = () => {
 
                     <TextField
                         fullWidth
-                        label="Password"
+                        label="Hasło"
                         type="password"
                         variant="outlined"
                         value={password}
@@ -65,16 +65,20 @@ const SigninForm = () => {
                         disabled={isLoading}
                         sx={{ py: 1.5 }}
                     >
-                        {isLoading ? <CircularProgress size={24} /> : "Sign In"}
+                        {isLoading ? (
+                            <CircularProgress size={24} />
+                        ) : (
+                            "Zaloguj się"
+                        )}
                     </Button>
                 </Stack>
             </Box>
 
             <Box sx={{ mt: 3, textAlign: "center" }}>
                 <Typography variant="body2">
-                    Don't have an account?{" "}
+                    Nie masz konta?{" "}
                     <MuiLink component={Link} to="/signup" underline="hover">
-                        Sign Up
+                        Załóż tutaj!
                     </MuiLink>
                 </Typography>
                 <MuiLink
@@ -83,7 +87,7 @@ const SigninForm = () => {
                     underline="hover"
                     sx={{ mt: 2, display: "block" }}
                 >
-                    Back to Home
+                    Wróc na główną
                 </MuiLink>
             </Box>
         </Box>
