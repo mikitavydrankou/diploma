@@ -35,14 +35,14 @@ const SignupForm = () => {
     return (
         <Box sx={{ maxWidth: 400, mx: "auto", mt: 8, p: 3 }}>
             <Typography variant="h4" component="h1" gutterBottom align="center">
-                Create Account
+                Załóż konto!
             </Typography>
 
             <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
                 <Stack spacing={3}>
                     <TextField
                         fullWidth
-                        label="Username"
+                        label="Przydomek"
                         variant="outlined"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
@@ -51,17 +51,17 @@ const SignupForm = () => {
 
                     <TextField
                         fullWidth
-                        label="Profile Link"
+                        label="Link do strony profilu Facebook"
                         variant="outlined"
                         value={link}
                         onChange={(e) => setLink(e.target.value)}
-                        helperText="Example: your-unique-link"
+                        helperText="Przykład: https://www.facebook.com/profile.php?id=1000812212993440"
                         required
                     />
 
                     <TextField
                         fullWidth
-                        label="Password"
+                        label="Hasło"
                         type="password"
                         variant="outlined"
                         value={password}
@@ -79,16 +79,20 @@ const SignupForm = () => {
                         disabled={isLoading}
                         sx={{ py: 1.5 }}
                     >
-                        {isLoading ? <CircularProgress size={24} /> : "Sign Up"}
+                        {isLoading ? (
+                            <CircularProgress size={24} />
+                        ) : (
+                            "Załóż konto"
+                        )}
                     </Button>
                 </Stack>
             </Box>
 
             <Box sx={{ mt: 3, textAlign: "center" }}>
                 <Typography variant="body2">
-                    Already have an account?{" "}
+                    Masz konto?{" "}
                     <MuiLink component={Link} to="/signin" underline="hover">
-                        Sign In
+                        Załoguj się tutaj!
                     </MuiLink>
                 </Typography>
                 <MuiLink
@@ -97,7 +101,7 @@ const SignupForm = () => {
                     underline="hover"
                     sx={{ mt: 2, display: "block" }}
                 >
-                    Back to Home
+                    Wróc na stronę główną
                 </MuiLink>
             </Box>
         </Box>

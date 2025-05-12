@@ -26,36 +26,34 @@ const BottomNavbar = () => {
         >
             <BottomNavigation showLabels>
                 {user
-                    ? // Явный массив элементов для авторизованного пользователя
-                      [
+                    ? [
                           <BottomNavigationAction
                               key="profile"
                               component={Link}
                               to="/profile"
-                              label="Profile"
+                              label="Profil"
                               icon={<PersonIcon />}
                           />,
                           <BottomNavigationAction
                               key="home"
                               component={Link}
                               to="/"
-                              label="Offers"
+                              label="Główna"
                               icon={<HomeIcon />}
                           />,
                           <BottomNavigationAction
                               key="logout"
-                              label="Logout"
+                              label="Wyloguj"
                               icon={<ExitToAppIcon />}
                               onClick={handleLogout}
                           />,
                       ]
-                    : // Массив с одним элементом для неавторизованного
-                      [
+                    : [
                           <BottomNavigationAction
                               key="signin"
                               component={Link}
                               to="/signin"
-                              label="Signin"
+                              label="Zaloguj się, aby dodać!"
                           />,
                       ]}
             </BottomNavigation>

@@ -16,12 +16,8 @@ const ProfilePage = () => {
     return (
         <Container maxWidth="md" sx={{ py: 4 }}>
             <Stack alignItems="center">
-                <Typography variant="h3" gutterBottom>
-                    Twój profil
-                </Typography>
-
                 <Typography variant="h4" gutterBottom>
-                    {user.username}
+                    Masz na imię: {user.username}
                 </Typography>
             </Stack>
 

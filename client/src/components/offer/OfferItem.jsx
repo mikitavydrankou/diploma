@@ -12,7 +12,7 @@ const OfferItem = ({ offer, currentTime }) => {
         const hours = Math.floor(diff / (1000 * 60 * 60));
         const minutes = Math.floor((diff / (1000 * 60)) % 60);
 
-        return `${hours}ч ${minutes.toString().padStart(2, "0")}м`;
+        return `${hours}g ${minutes.toString().padStart(2, "0")}m`;
     };
 
     const user = useAuthStore((s) => s.user);
