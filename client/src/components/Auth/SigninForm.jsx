@@ -24,7 +24,7 @@ const SigninForm = () => {
             await signin(username, password);
             navigate("/");
         } catch (err) {
-            console.error("Error signing in:", err);
+            console.error("Error signingin:", err);
         }
     };
 
