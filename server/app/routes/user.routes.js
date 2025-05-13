@@ -12,6 +12,7 @@ import {
     getUserById,
     updateUserRole,
     updateUser,
+    usersCount,
 } from "../controllers/user.controller.js";
 
 const routes = function (app) {
@@ -40,6 +41,8 @@ const routes = function (app) {
     app.get("/api/auth/me", [authJwt.verifyToken], (req, res) => {
         res.json(req.user);
     });
+
+    app.get("/api/count", usersCount);
 };
 
 export default routes;
