@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
 import PersonIcon from "@mui/icons-material/Person";
 import HomeIcon from "@mui/icons-material/Home";
+import InfoIcon from "@mui/icons-material/Info";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 const BottomNavbar = () => {
@@ -31,19 +32,16 @@ const BottomNavbar = () => {
                               key="profile"
                               component={Link}
                               to="/profile"
-                              label="Profil"
-                              icon={<PersonIcon />}
+                              icon={<InfoIcon />}
                           />,
                           <BottomNavigationAction
                               key="home"
                               component={Link}
                               to="/"
-                              label="Główna"
                               icon={<HomeIcon />}
                           />,
                           <BottomNavigationAction
                               key="logout"
-                              label="Wyloguj"
                               icon={<ExitToAppIcon />}
                               onClick={handleLogout}
                           />,
