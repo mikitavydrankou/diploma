@@ -229,7 +229,7 @@ export const updateUserRole = async (req, res) => {
 
         const user = await db.User.findByPk(id);
         if (!user) {
-            return res.status(404).json({ message: "User not found" });
+            return res.status(404).json({ message: "User not found!" });
         }
 
         const role = await db.Role.findOne({ where: { name: newRole } });
