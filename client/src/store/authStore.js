@@ -53,7 +53,6 @@ export const useAuthStore = create(
             checkAuth: async () => {
                 try {
                     const response = await checkauth();
-                    console.log("checkAuth response", response);
                     if (response) {
                         set({ user: response, error: null });
                     } else {
