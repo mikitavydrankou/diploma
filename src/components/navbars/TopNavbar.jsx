@@ -86,7 +86,7 @@ const TopNavbar = () => {
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                     <PersonIcon color="action" />
                     <Typography variant="body1" sx={{ fontWeight: 500 }}>
-                        {userCount !== null ? userCount : "Загрузка..."}
+                        {userCount !== null ? userCount : "Moment..."}
                     </Typography>
                 </Box>
             </Toolbar>
