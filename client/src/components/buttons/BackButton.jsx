@@ -14,7 +14,7 @@ const BackButton = () => {
             onClick={goBack}
             sx={{
                 position: "fixed",
-                top: 16,
+                top: 80,
                 right: 16,
                 zIndex: 1200,
                 backgroundColor: "rgba(0, 0, 0, 0.1)",
