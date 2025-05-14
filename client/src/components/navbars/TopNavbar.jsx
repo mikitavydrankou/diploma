@@ -5,6 +5,7 @@ import {
     Typography,
     useTheme,
     Box,
+    CircularProgress,
 } from "@mui/material";
 import { useAuthStore } from "../../store/authStore";
 import { Link } from "react-router-dom";
@@ -82,12 +83,28 @@ const TopNavbar = () => {
                     )}
                 </Box>
 
-                {/* Правый блок — иконка + счётчик */}
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                    <PersonIcon color="action" />
-                    <Typography variant="body1" sx={{ fontWeight: 500 }}>
-                        {userCount !== null ? userCount : "Moment..."}
-                    </Typography>
+                    {userCount === null ? (
+                        <CircularProgress
+                            size={20}
+                            sx={{ color: theme.palette.error.dark }}
+                        />
+                    ) : (
+                        <>
+                            <PersonIcon
+                                sx={{ color: theme.palette.error.dark }}
+                            />
+                            <Typography
+                                variant="body1"
+                                sx={{
+                                    fontWeight: 500,
+                                    color: theme.palette.error.dark,
+                                }}
+                            >
+                                {userCount}
+                            </Typography>
+                        </>
+                    )}
                 </Box>
             </Toolbar>
         </AppBar>
