@@ -22,7 +22,9 @@ export const signup = async (req, res) => {
     try {
         const role = await Role.findOne({ where: { name: "user" } });
         if (!role) {
-            return res.status(500).json({ message: "Role 'user' not found" });
+            return res
+                .status(500)
+                .json({ message: "Nie znaleziono roli 'user'" });
         }
 
         const user = await User.create({
@@ -39,7 +41,7 @@ export const signup = async (req, res) => {
 
         res.cookie("token", token, COOKIE_SETTINGS);
         res.status(200).json({
-            message: "User registered successfully!",
+            message: "Użytkownik zarejestrował się pomyślnie!",
             id: user.id,
             username: user.username,
             role: role.name,
@@ -50,20 +52,19 @@ export const signup = async (req, res) => {
             err instanceof db.Sequelize.ValidationError ||
             err instanceof db.Sequelize.UniqueConstraintError
         ) {
-            const errors = err.errors.map((e) => ({
-                field: e.path,
-                message: e.message,
-            }));
-            return res.status(400).json({ errors });
+            return res.status(400).json({ message: err.message });
         }
-        res.status(500).json({ message: "Signup failed" });
+        res.status(500).json({
+            message:
+                "Rejestracja nie powiodła się z powodu wewnętrznego błędu serwera",
+        });
     }
 };
 export const signin = async (req, res) => {
     try {
         if (!req.body.username || !req.body.password) {
             return res.status(400).json({
-                message: "Username and password are required",
+                message: "Wymagana jest nazwa użytkownika i hasło",
             });
         }
 
@@ -73,7 +74,9 @@ export const signin = async (req, res) => {
         });
 
         if (!user) {
-            return res.status(404).json({ message: "User not found" });
+            return res
+                .status(404)
+                .json({ message: "Użytkownik nie został znaleziony" });
         }
 
         const passwordValid = bcrypt.compareSync(
@@ -83,7 +86,7 @@ export const signin = async (req, res) => {
 
         if (!passwordValid) {
             return res.status(401).json({
-                message: "Invalid credentials",
+                message: "Nieprawidłowe dane",
             });
         }
 
@@ -108,20 +111,19 @@ export const signin = async (req, res) => {
         console.log(`User ${user.username} authenticated successfully`);
         res.status(200).json(responseData);
     } catch (err) {
-        if (err instanceof db.Sequelize.ValidationError) {
-            const errors = err.errors.map((e) => ({
-                field: e.path,
-                message: e.message,
-            }));
-            return res.status(400).json({ errors });
+        if (
+            err instanceof db.Sequelize.ValidationError ||
+            err instanceof db.Sequelize.UniqueConstraintError
+        ) {
+            return res.status(400).json({ message: err.message });
         }
         res.status(500).json({
-            message: "Authentication failed",
-            error: process.env.NODE_ENV === "development" ? err.message : null,
+            message:
+                "Rejestracja nie powiodła się z powodu wewnętrznego błędu serwera",
         });
     }
 };
 export const signout = (req, res) => {
     res.clearCookie("token");
-    res.status(200).send({ message: "Sign out successfully" });
+    res.status(200).send({ message: "Wyloguj się pomyślnie" });
 };
