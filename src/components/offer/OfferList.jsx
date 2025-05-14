@@ -30,28 +30,30 @@ const OfferList = () => {
     return (
         <Box
             sx={{
-                p: 1,
-                maxWidth: 1200,
-                mx: "auto",
+                display: "grid",
+                gridTemplateColumns: {
+                    xs: "repeat(2, 1fr)", // телефоны
+                    sm: "repeat(3, 1fr)", // планшеты
+                    md: "repeat(4, 1fr)", // ноутбуки
+                    lg: "repeat(5, 1fr)", // десктопы
+                },
+                gap: 2,
                 width: "100%",
+                mx: "auto", // центрирование по горизонтали, если есть maxWidth
+                maxWidth: "1600px", // ограничим ширину контейнера
             }}
         >
-            <Grid container columns={{ xs: 4, sm: 8, md: 12 }} spacing={2}>
-                {data?.map((offer) => (
-                    <Grid
-                        key={offer.id}
-                        sx={{
-                            gridColumn: {
-                                xs: "span 4",
-                                sm: "span 4",
-                                md: "span 4",
-                            },
-                        }}
-                    >
-                        <OfferItem offer={offer} currentTime={time} />
-                    </Grid>
-                ))}
-            </Grid>
+            {data?.map((offer) => (
+                <Box
+                    key={offer.id}
+                    sx={{
+                        width: "100%",
+                        aspectRatio: "1",
+                    }}
+                >
+                    <OfferItem offer={offer} currentTime={time} />
+                </Box>
+            ))}
         </Box>
     );
 };
