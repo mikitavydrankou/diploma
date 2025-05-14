@@ -18,8 +18,33 @@ const COOKIE_SETTINGS = {
     maxAge: 86400 * 1000,
 };
 
+const validatePasswordStrength = (password) => {
+    if (!password) {
+        return "Hasło nie może być puste";
+    }
+
+    if (password.length < 8) {
+        return "Hasło musi mieć co najmniej 8 znaków";
+    }
+
+    const strongPasswordPattern = /^(?=.*[a-z])(?=.*\d).+$/;
+
+    if (!strongPasswordPattern.test(password)) {
+        return "Hasło musi zawierać co najmniej jedną cyfrę i jedną małą literę";
+    }
+
+    return null;
+};
+
 export const signup = async (req, res) => {
     try {
+        const passwordError = validatePasswordStrength(req.body.password);
+        if (passwordError) {
+            return res.status(400).json({
+                message: passwordError,
+            });
+        }
+
         const role = await Role.findOne({ where: { name: "user" } });
         if (!role) {
             return res
@@ -60,6 +85,7 @@ export const signup = async (req, res) => {
         });
     }
 };
+
 export const signin = async (req, res) => {
     try {
         if (!req.body.username || !req.body.password) {
