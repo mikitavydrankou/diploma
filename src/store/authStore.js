@@ -17,7 +17,9 @@ export const useAuthStore = create(
                     set({ user: data, isLoading: false, error: null });
                 } catch (error) {
                     set({
-                        error: error.response?.data?.message || "Signin failed",
+                        error:
+                            error.response?.data?.message ||
+                            "Błąd podczas logowania",
                         isLoading: false,
                     });
                     throw error;
@@ -31,7 +33,9 @@ export const useAuthStore = create(
                     set({ user: data, isLoading: false, error: null });
                 } catch (error) {
                     set({
-                        error: error.response?.data?.message || "Signup failed",
+                        error:
+                            error.response?.data?.message ||
+                            "Błąd podczas rejestracji",
                         isLoading: false,
                     });
                     throw error;
