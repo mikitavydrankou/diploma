@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useOffers } from "../../api/offerQueries.js";
 import OfferItem from "./OfferItem.jsx";
-import { Grid, Box } from "@mui/material";
+import { Grid, Box, CircularProgress } from "@mui/material";
 
 const OfferList = () => {
     const { data, isLoading, error } = useOffers();
@@ -12,7 +12,19 @@ const OfferList = () => {
         return () => clearInterval(timer);
     }, []);
 
-    if (isLoading) return <p>Loading offers...</p>;
+    if (isLoading)
+        return (
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "50vh",
+                }}
+            >
+                <CircularProgress />
+            </Box>
+        );
     if (error) return <p>Error: {error.message}</p>;
 
     return (

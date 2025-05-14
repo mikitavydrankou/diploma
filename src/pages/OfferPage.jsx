@@ -11,6 +11,7 @@ import {
     Chip,
     Divider,
     Button,
+    CircularProgress,
 } from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import PlaceIcon from "@mui/icons-material/Place";
@@ -21,7 +22,20 @@ const OfferPage = () => {
     const { data: offer, isLoading, error } = useOfferById(id);
     const { user } = useAuthStore();
 
-    if (isLoading) return <p>Ładowanie szczegółów oferty...</p>;
+    if (isLoading)
+        return (
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "50vh",
+                }}
+            >
+                <CircularProgress />
+            </Box>
+        );
+
     if (error) return <p>Błąd: {error.message}</p>;
     if (!offer) return <p>Oferta nie została znaleziona</p>;
 
