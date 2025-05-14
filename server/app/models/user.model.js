@@ -5,31 +5,67 @@ const userModel = (sequelize, Sequelize) => {
             allowNull: false,
             validate: {
                 notEmpty: {
-                    msg: "Username cannot be empty",
+                    msg: "Nickname nie może być pusty",
                 },
                 len: {
                     args: [3, 25],
-                    msg: "Username must be between 3 and 25 characters",
+                    msg: "Nickname musi mieć od 3 do 25 znaków",
                 },
                 is: {
                     args: /^[a-zA-Z0-9_]+$/i,
-                    msg: "Username can only contain letters, numbers and underscores",
+                    msg: "Nickname może zawierać tylko litery, cyfry i podkreślenia",
                 },
             },
         },
+        // password: {
+        //     type: Sequelize.STRING,
+        //     validate: {
+        //         notEmpty: {
+        //             msg: "Hasło nie może być puste",
+        //         },
+        //         len: {
+        //             args: [8, 100],
+        //             msg: "Hasło musi mieć co najmniej 8 znaków",
+        //         },
+        //         isStrongEnough(value) {
+        //             const strongPasswordPattern =
+        //                 /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/;
+        //             if (!strongPasswordPattern.test(value)) {
+        //                 throw new Error(
+        //                     "Hasło musi zawierać co najmniej jedną cyfrę"
+        //                 );
+        //             }
+        //         },
+        //     },
+        // },
         password: {
             type: Sequelize.STRING,
+            allowNull: false,
             validate: {
                 notEmpty: {
-                    msg: "Password cannot be empty",
+                    msg: "Hasło nie może być puste",
+                },
+                len: {
+                    args: [8, 100],
+                    msg: "Hasło musi mieć co najmniej 8 znaków",
+                },
+                isStrongEnough(value) {
+                    const strongPasswordPattern =
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/;
+                    if (!strongPasswordPattern.test(value)) {
+                        throw new Error(
+                            "Hasło musi zawierać co najmniej jedną małą i wielką literę, cyfrę oraz znak specjalny"
+                        );
+                    }
                 },
             },
         },
+
         link: {
             type: Sequelize.STRING,
             unique: {
                 name: "unique_facebook_link",
-                msg: "This Facebook link is already in use",
+                msg: "Ten link Facebook jest już zajęty!",
             },
             validate: {
                 isFacebookUrl(value) {
@@ -38,13 +74,13 @@ const userModel = (sequelize, Sequelize) => {
 
                     if (!facebookPattern.test(value)) {
                         throw new Error(
-                            "Invalid Facebook link format. Please provide a valid URL."
+                            "Link Facebook musi być poprawnym adresem URL"
                         );
                     }
                 },
                 len: {
                     args: [0, 500],
-                    msg: "Facebook link must be less than 500 characters",
+                    msg: "Link Facebook nie może być dłuższy niż 500 znaków",
                 },
             },
         },
