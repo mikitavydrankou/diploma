@@ -9,7 +9,26 @@ const checkDuplicateUsername = (req, res, next) => {
             if (userByUsername) {
                 return res
                     .status(400)
-                    .send({ message: "Failed! Username is already in use!" });
+                    .send({ message: "Ten nickname jest już zajęty!" });
+            }
+            next();
+        })
+        .catch((err) => {
+            res.status(500).send({ message: err.message });
+        });
+};
+
+const checkDuplicateLink = (req, res, next) => {
+    if (!req.body.link) {
+        return next();
+    }
+
+    User.findOne({ where: { link: req.body.link } })
+        .then((userWithLink) => {
+            if (userWithLink) {
+                return res.status(400).send({
+                    message: "Ten link Facebook jest już zajęty!",
+                });
             }
             next();
         })
@@ -44,6 +63,7 @@ const checkRolesExisted = (req, res, next) => {
 const verifySignUp = {
     checkDuplicateUsername: checkDuplicateUsername,
     checkRolesExisted: checkRolesExisted,
+    checkDuplicateLink: checkDuplicateLink,
 };
 
 export default verifySignUp;

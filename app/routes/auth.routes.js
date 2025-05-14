@@ -4,7 +4,11 @@ import { signin, signup, signout } from "../controllers/auth.controller.js";
 const auth = function (app) {
     app.post(
         "/api/auth/signup",
-        [verifySignUp.checkDuplicateUsername, verifySignUp.checkRolesExisted],
+        [
+            verifySignUp.checkDuplicateUsername,
+            verifySignUp.checkRolesExisted,
+            verifySignUp.checkDuplicateLink,
+        ],
         signup
     );
 
