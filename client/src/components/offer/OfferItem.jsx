@@ -22,7 +22,7 @@ const OfferItem = ({ offer, currentTime }) => {
             sx={{
                 width: "100%",
                 maxWidth: 300,
-                minWidth: 140,
+                minWidth: 150,
                 margin: "0 auto",
                 height: 0,
                 paddingTop: "100%",
