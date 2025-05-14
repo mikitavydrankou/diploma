@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useOffers } from "../../api/offerQueries.js";
 import OfferItem from "./OfferItem.jsx";
-import { Grid, Box, CircularProgress } from "@mui/material";
+import { Grid, Box, CircularProgress, Typography } from "@mui/material";
 
 const OfferList = () => {
     const { data, isLoading, error } = useOffers();
@@ -25,25 +25,62 @@ const OfferList = () => {
                 <CircularProgress />
             </Box>
         );
-    if (error) return <p>Error: {error.message}</p>;
+
+    if (error) {
+        const isNetworkError =
+            error?.message?.includes("NetworkError") ||
+            error?.message?.includes("Failed to fetch");
+        return (
+            <Box textAlign="center" mt={5}>
+                <Typography variant="h6" color="error">
+                    {isNetworkError
+                        ? "Nie ma połączenia z internetem"
+                        : `Brak połączenia z serwerem, za chwilę spróbuj ponownie`}
+                </Typography>
+                <Typography
+                    variant="body2"
+                    sx={{
+                        fontSize: "0.85rem",
+                        color: "text.secondary",
+
+                        p: 1,
+                        borderRadius: 2,
+                    }}
+                >
+                    Jeśli problem nie ustępuje, skontaktuj się ze mną w
+                    Messenger: Nikita Vydrankou
+                </Typography>
+            </Box>
+        );
+    }
+
+    if (!data || data.length === 0) {
+        return (
+            <Box textAlign="center" mt={5}>
+                <Typography variant="h6" color="text.secondary">
+                    Офферы отсутствуют
+                </Typography>
+            </Box>
+        );
+    }
 
     return (
         <Box
             sx={{
                 display: "grid",
                 gridTemplateColumns: {
-                    xs: "repeat(2, 1fr)", // телефоны
-                    sm: "repeat(3, 1fr)", // планшеты
-                    md: "repeat(4, 1fr)", // ноутбуки
-                    lg: "repeat(5, 1fr)", // десктопы
+                    xs: "repeat(2, 1fr)",
+                    sm: "repeat(3, 1fr)",
+                    md: "repeat(4, 1fr)",
+                    lg: "repeat(5, 1fr)",
                 },
                 gap: 2,
                 width: "100%",
-                mx: "auto", // центрирование по горизонтали, если есть maxWidth
-                maxWidth: "1600px", // ограничим ширину контейнера
+                mx: "auto",
+                maxWidth: "1600px",
             }}
         >
-            {data?.map((offer) => (
+            {data.map((offer) => (
                 <Box
                     key={offer.id}
                     sx={{
