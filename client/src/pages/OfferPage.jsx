@@ -54,10 +54,7 @@ const OfferPage = () => {
                     alignItems: "center",
                     mb: 3,
                 }}
-            >
-                {canDelete && <DeleteButton offerId={offer.id} />}
-                <BackButton />
-            </Box>
+            ></Box>
 
             <Typography
                 variant="h4"
@@ -130,10 +127,23 @@ const OfferPage = () => {
                     borderRadius: 1,
                     fontWeight: 500,
                     textTransform: "none",
+                    mb: 3,
                 }}
             >
                 Skontaktuj się przez Facebook
             </Button>
+
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    mb: 3,
+                }}
+            >
+                {canDelete && <DeleteButton offerId={offer.id} />}
+                <BackButton />
+            </Box>
         </Container>
     );
 };
