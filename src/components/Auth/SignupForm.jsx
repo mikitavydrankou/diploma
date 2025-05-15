@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useAuthStore } from "../../store/authStore";
 import {
     Box,
     Button,
@@ -12,12 +10,23 @@ import {
     Alert,
     useMediaQuery,
     useTheme,
+    Checkbox,
+    FormControlLabel,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
 } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../store/authStore";
 
 const SignupForm = () => {
     const [username, setUsername] = useState("");
     const [link, setLink] = useState("");
     const [password, setPassword] = useState("");
+    const [acceptedTerms, setAcceptedTerms] = useState(false);
+    const [openTerms, setOpenTerms] = useState(false);
+
     const { signup, isLoading, error } = useAuthStore();
     const navigate = useNavigate();
 
@@ -26,6 +35,7 @@ const SignupForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!acceptedTerms) return;
         try {
             await signup(username, link, password);
             navigate("/");
@@ -78,7 +88,6 @@ const SignupForm = () => {
                             sx={{
                                 fontSize: "0.85rem",
                                 color: "text.secondary",
-
                                 p: 1,
                                 borderRadius: 2,
                             }}
@@ -93,7 +102,7 @@ const SignupForm = () => {
                             <br />
                             4. Wybierz „Kopiuj link do profilu” na dole
                             <br />
-                            5. Nacisnij "„Kopiuj link" w oknie, które się
+                            5. Naciśnij "„Kopiuj link" w oknie, które się
                             otworzy
                             <br />
                             6. Wklej tutaj
@@ -110,6 +119,32 @@ const SignupForm = () => {
                         required
                     />
 
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={acceptedTerms}
+                                onChange={(e) =>
+                                    setAcceptedTerms(e.target.checked)
+                                }
+                                name="acceptedTerms"
+                                color="primary"
+                            />
+                        }
+                        label={
+                            <>
+                                Akceptuję{" "}
+                                <MuiLink
+                                    component="button"
+                                    variant="body2"
+                                    onClick={() => setOpenTerms(true)}
+                                    sx={{ cursor: "pointer" }}
+                                >
+                                    Regulamin Kortowo Ninja
+                                </MuiLink>
+                            </>
+                        }
+                    />
+
                     {error && <Alert severity="error">{error}</Alert>}
 
                     <Button
@@ -117,7 +152,7 @@ const SignupForm = () => {
                         type="submit"
                         variant="contained"
                         size="large"
-                        disabled={isLoading}
+                        disabled={isLoading || !acceptedTerms}
                         sx={{ py: 1.5 }}
                     >
                         {isLoading ? (
@@ -142,9 +177,113 @@ const SignupForm = () => {
                     underline="hover"
                     sx={{ mt: 2, display: "block" }}
                 >
-                    Wróc na stronę główną
+                    Wróć na stronę główną
                 </MuiLink>
             </Box>
+
+            {/* Модальное окно с регламентом */}
+            <Dialog
+                open={openTerms}
+                onClose={() => setOpenTerms(false)}
+                maxWidth="sm"
+                fullWidth
+            >
+                <DialogTitle>Regulamin Kortowo Ninja</DialogTitle>
+                <DialogContent dividers>
+                    <Typography variant="h6" gutterBottom>
+                        Regulamin Kortowo Ninja — rejestracja konta
+                    </Typography>
+
+                    <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        gutterBottom
+                    >
+                        Zaktualizowano: 15.05.2025
+                    </Typography>
+
+                    <Typography paragraph>
+                        Przed utworzeniem konta prosimy o uważne zapoznanie się
+                        z warunkami:
+                    </Typography>
+
+                    <Typography variant="subtitle1" gutterBottom>
+                        Korzystanie z platformy
+                    </Typography>
+                    <Typography paragraph>
+                        Kortowo Ninja to bezpłatna platforma do wymiany rzeczy
+                        między studentami. Platforma udostępnia narzędzie
+                        techniczne do zamieszczania ofert i nie pośredniczy w
+                        transakcjach.
+                    </Typography>
+
+                    <Typography variant="subtitle1" gutterBottom>
+                        Odpowiedzialność
+                    </Typography>
+                    <Typography paragraph>
+                        Potwierdzasz, że korzystasz z serwisu dobrowolnie i
+                        ponosisz pełną odpowiedzialność za swoje działania,
+                        informacje, które zamieszczasz oraz za efekty wymiany z
+                        innymi użytkownikami. Platforma i jej administratorzy
+                        nie ponoszą odpowiedzialności za jakiekolwiek straty,
+                        spory lub szkody.
+                    </Typography>
+
+                    <Typography variant="subtitle1" gutterBottom>
+                        Zasady zamieszczania treści
+                    </Typography>
+                    <Typography paragraph>
+                        Zabrania się zamieszczania ofert zawierających:
+                    </Typography>
+                    <ul>
+                        <li>napoje alkoholowe osobom poniżej 18 roku życia;</li>
+                        <li>przemoc, dyskryminację, spam, oszustwa;</li>
+                        <li>fałszywe lub wprowadzające w błąd informacje;</li>
+                        <li>
+                            przedmioty zabronione prawem (narkotyki, broń, leki
+                            na receptę);
+                        </li>
+                        <li>reklamę komercyjną bez zgody administracji.</li>
+                    </ul>
+
+                    <Typography variant="subtitle1" gutterBottom>
+                        Moderacja
+                    </Typography>
+                    <Typography paragraph>
+                        Administracja platformy zastrzega sobie prawo do
+                        usuwania dowolnych treści oraz blokowania kont za
+                        naruszenie zasad bez wcześniejszego powiadomienia.
+                    </Typography>
+
+                    <Typography variant="subtitle1" gutterBottom>
+                        Dane osobowe
+                    </Typography>
+                    <Typography paragraph>
+                        Dobrowolnie udostępniasz informacje (np. link do mediów
+                        społecznościowych) publicznie. Platforma nie odpowiada
+                        za wykorzystanie tych danych przez osoby trzecie.
+                    </Typography>
+
+                    <Typography variant="subtitle1" gutterBottom>
+                        Akceptacja warunków
+                    </Typography>
+                    <Typography paragraph>
+                        Rejestrując się, potwierdzasz, że zapoznałeś(-aś) się z
+                        regulaminem, rozumiesz i akceptujesz wszystkie jego
+                        warunki oraz zgadzasz się ponosić pełną odpowiedzialność
+                        za korzystanie z konta i zamieszczane treści.
+                    </Typography>
+
+                    <Typography paragraph>
+                        Jeśli nie zgadzasz się z tymi warunkami, prosimy nie
+                        rejestrować się i nie korzystać z platformy.
+                    </Typography>
+                </DialogContent>
+
+                <DialogActions>
+                    <Button onClick={() => setOpenTerms(false)}>Zamknij</Button>
+                </DialogActions>
+            </Dialog>
         </Box>
     );
 };

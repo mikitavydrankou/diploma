@@ -58,7 +58,7 @@ const OfferList = () => {
         return (
             <Box textAlign="center" mt={5}>
                 <Typography variant="h6" color="text.secondary">
-                    Офферы отсутствуют
+                    Nie ma ofert, dodaj pierwszą!
                 </Typography>
             </Box>
         );
