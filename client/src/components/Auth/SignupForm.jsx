@@ -181,7 +181,6 @@ const SignupForm = () => {
                 </MuiLink>
             </Box>
 
-            {/* Модальное окно с регламентом */}
             <Dialog
                 open={openTerms}
                 onClose={() => setOpenTerms(false)}
@@ -191,7 +190,7 @@ const SignupForm = () => {
                 <DialogTitle>Regulamin Kortowo Ninja</DialogTitle>
                 <DialogContent dividers>
                     <Typography variant="h6" gutterBottom>
-                        Regulamin Kortowo Ninja — rejestracja konta
+                        Regulamin Kortowo Ninja
                     </Typography>
 
                     <Typography
