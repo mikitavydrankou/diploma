@@ -38,6 +38,7 @@ export const DeleteButton = ({ offerId }) => {
                     py: 1,
                     borderRadius: 2,
                     textTransform: "none",
+                    flexGrow: 1, // Добавляем растягивание
                     "&:hover": {
                         backgroundColor: "error.dark",
                         boxShadow: 2,
