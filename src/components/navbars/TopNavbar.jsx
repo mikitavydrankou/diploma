@@ -16,7 +16,7 @@ import PersonIcon from "@mui/icons-material/Person";
 
 const TopNavbar = () => {
     const theme = useTheme();
-    const { isAdminOrModerator, user } = useAuthStore();
+    const { isAdminOrModerator } = useAuthStore();
     const [userCount, setUserCount] = useState(null);
 
     useEffect(() => {
@@ -50,7 +50,6 @@ const TopNavbar = () => {
                     alignItems: "center",
                 }}
             >
-                {/* Левый блок — название и кнопка админки */}
                 <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                     <Typography
                         variant="h6"
@@ -66,7 +65,7 @@ const TopNavbar = () => {
                         Ninja na Kortowie!... Tsss...
                     </Typography>
 
-                    {user && isAdminOrModerator() && (
+                    {isAdminOrModerator() && (
                         <IconButton
                             color="inherit"
                             component={Link}

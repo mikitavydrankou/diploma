@@ -40,6 +40,10 @@ const OfferPage = () => {
     if (!offer) return <p>Oferta nie została znaleziona</p>;
 
     const isOwner = user?.id === offer.user.id;
+    const isAdminOrModerator =
+        user?.role === "admin" || user?.role === "moderator";
+
+    const canDelete = isOwner || isAdminOrModerator;
 
     return (
         <Container maxWidth="md" sx={{ py: 4 }}>
@@ -51,7 +55,7 @@ const OfferPage = () => {
                     mb: 3,
                 }}
             >
-                {isOwner && <DeleteButton offerId={offer.id} />}
+                {canDelete && <DeleteButton offerId={offer.id} />}
                 <BackButton />
             </Box>
 
