@@ -231,10 +231,6 @@ const OfferForm = () => {
             >
                 <DialogTitle>Regulamin Kortowo Ninja</DialogTitle>
                 <DialogContent dividers>
-                    <Typography variant="h6" gutterBottom>
-                        Regulamin Kortowo Ninja
-                    </Typography>
-
                     <Typography
                         variant="body2"
                         color="text.secondary"
