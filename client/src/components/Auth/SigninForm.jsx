@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
 import {
     Box,
@@ -10,12 +10,17 @@ import {
     Stack,
     CircularProgress,
     Alert,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
 } from "@mui/material";
 
 const SigninForm = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const { signin, isLoading, error } = useAuthStore();
+    const [openInfo, setOpenInfo] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -31,7 +36,14 @@ const SigninForm = () => {
     return (
         <Box sx={{ maxWidth: 400, mx: "auto", mt: 8, p: 3 }}>
             <Typography variant="h4" component="h1" gutterBottom align="center">
-                Siema!
+                <MuiLink
+                    component="button"
+                    variant="h5"
+                    onClick={() => setOpenInfo(true)}
+                    sx={{ cursor: "pointer" }}
+                >
+                    Co to jest?
+                </MuiLink>
             </Typography>
 
             <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
@@ -81,12 +93,16 @@ const SigninForm = () => {
             <Box sx={{ mt: 3, textAlign: "center" }}>
                 <Typography variant="body2">
                     Nie masz konta?{" "}
-                    <MuiLink component={Link} to="/signup" underline="hover">
+                    <MuiLink
+                        component={RouterLink}
+                        to="/signup"
+                        underline="hover"
+                    >
                         Załóż tutaj!
                     </MuiLink>
                 </Typography>
                 <MuiLink
-                    component={Link}
+                    component={RouterLink}
                     to="/"
                     underline="hover"
                     sx={{ mt: 2, display: "block" }}
@@ -94,6 +110,31 @@ const SigninForm = () => {
                     Wróc na główną
                 </MuiLink>
             </Box>
+
+            <Dialog
+                open={openInfo}
+                onClose={() => setOpenInfo(false)}
+                maxWidth="sm"
+                fullWidth
+            >
+                <DialogTitle>Co to jest?</DialogTitle>
+                <DialogContent dividers>
+                    <Typography variant="body2" gutterBottom>
+                        Kortowo Ninja to bezpłatna platforma wymiany rzeczy
+                        między studentami Uniwersytetu Warmińsko-Mazurskiego w
+                        Olsztynie, szczególnie mieszkającymi w akademikach
+                        Kortowa. Umożliwia studentom tworzenie i publikowanie
+                        ofert (przedmiotów, usług lub propozycji wymiany),
+                        przeglądanie i wyszukiwanie ogłoszeń innych użytkowników
+                        oraz bezpośredni kontakt przez Facebooka — bez
+                        pośredników.
+                    </Typography>
+                </DialogContent>
+
+                <DialogActions>
+                    <Button onClick={() => setOpenInfo(false)}>Zamknij</Button>
+                </DialogActions>
+            </Dialog>
         </Box>
     );
 };
