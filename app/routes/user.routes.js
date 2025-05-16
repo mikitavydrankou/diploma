@@ -38,7 +38,10 @@ const routes = function (app) {
     );
     app.put("/api/users/:id", [authJwt.verifyToken], updateUser);
 
-    app.get("/api/auth/me", [authJwt.verifyToken], (req, res) => {
+    app.get("/api/auth/me", [authJwt.optionalVerifyToken], (req, res) => {
+        if (!req.user) {
+            return res.json(null);
+        }
         res.json(req.user);
     });
 

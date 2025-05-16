@@ -250,7 +250,7 @@ export const usersCount = async (req, res) => {
         const count = await db.User.count();
         res.status(200).json({ count });
     } catch (err) {
-        console.error("Error fetching user count:", err);
+        logger.error(`User count error: ${err.stack}`);
         res.status(500).json({ message: "Failed to get user count" });
     }
 };

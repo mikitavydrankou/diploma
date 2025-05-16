@@ -33,6 +33,36 @@ const verifyToken = (req, res, next) => {
     });
 };
 
+const optionalVerifyToken = async (req, res, next) => {
+    const token = req.cookies.token;
+
+    if (!token) {
+        req.user = null;
+        return next();
+    }
+
+    try {
+        const decoded = jwt.verify(token, config.secret);
+        const user = await User.findByPk(decoded.id);
+
+        if (!user) {
+            req.user = null;
+            return next();
+        }
+
+        req.user = {
+            id: user.id,
+            username: user.username,
+            link: user.link,
+            role: decoded.role,
+        };
+        next();
+    } catch (err) {
+        req.user = null;
+        next();
+    }
+};
+
 const checkRole = (requiredRole) => {
     const ROLE_HIERARCHY = {
         user: 1,
@@ -80,6 +110,7 @@ const checkRole = (requiredRole) => {
 
 const authJwt = {
     verifyToken,
+    optionalVerifyToken,
     checkRole,
 };
 

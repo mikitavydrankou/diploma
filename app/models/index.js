@@ -8,7 +8,7 @@ import schedule from "node-schedule";
 const sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
     host: config.HOST,
     dialect: config.dialect,
-    logging: true,
+    logging: false,
 });
 
 try {
