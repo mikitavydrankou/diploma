@@ -1,5 +1,6 @@
 import db from "../models/index.js";
 const Offer = db.Offer;
+import logger from "../config/logger.js";
 
 const USER_INCLUDE_SETTINGS = {
     model: db.User,
@@ -28,7 +29,7 @@ export const getActiveOffers = async (req, res) => {
         });
         res.status(200).json(offers);
     } catch (err) {
-        console.error("Error in getActiveOffers:", err);
+        logger.error(`Error in getActiveOffers: ${err.stack}`);
         res.status(500).json({ message: "Failed to fetch active offers" });
     }
 };
@@ -66,8 +67,6 @@ export const createOffer = async (req, res) => {
 
         const expiresAt = new Date(Date.now() + ttlHoursNumber * 3600 * 1000);
 
-        console.log("Creating offer");
-
         try {
             const offer = await Offer.create({
                 title,
@@ -80,6 +79,9 @@ export const createOffer = async (req, res) => {
                 status: "active",
             });
             res.status(201).json(offer);
+            logger.info(
+                `User "${req.user.username}" created offfer. ID: ${offer.id}, Title: ${offer.title}`
+            );
         } catch (error) {
             if (error.name === "SequelizeValidationError") {
                 return res.status(400).json({
@@ -88,8 +90,8 @@ export const createOffer = async (req, res) => {
             }
         }
     } catch (err) {
-        console.error("Creating error:", err);
-        res.status(500).json({ message: "Cant create offer" });
+        logger.error(`Create offer error: ${err.stack}`);
+        res.status(500).json({ message: "Create offer error" });
     }
 };
 
@@ -114,8 +116,11 @@ export const deleteOffer = async (req, res) => {
         await offer.destroy();
 
         res.status(200).json({ message: "Offer deleted successfully" });
+        logger.info(
+            `User "${req.user.username}" deleted offfer. ID: ${offer.id}, Title: ${offer.title}`
+        );
     } catch (err) {
-        console.error("Deleting error:", err);
+        logger.error(`Deleting offer error: ${err.stack}`);
         res.status(500).json({ message: "Failed to delete offer" });
     }
 };
@@ -139,8 +144,11 @@ export const updateOffer = async (req, res) => {
 
         const updatedOffer = await offer.update(req.body);
         res.status(200).json(updatedOffer);
+        logger.info(
+            `User "${req.user.username}" updated offfer. ID: ${offer.id}, Title: ${offer.title}`
+        );
     } catch (err) {
-        console.error("Update error:", err);
+        logger.error(`Updating offer error: ${err.stack}`);
         res.status(500).json({ message: "Failed to update offer" });
     }
 };
@@ -156,7 +164,7 @@ export const fetchOfferById = async (req, res) => {
         }
         res.status(200).json(offer);
     } catch (err) {
-        console.error("Fetching error:", err);
+        logger.error(`Fetching offer error: ${err.stack}`);
         res.status(500).json({ message: "Failed to fetch offer by id" });
     }
 };
