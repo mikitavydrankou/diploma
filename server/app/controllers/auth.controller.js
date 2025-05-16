@@ -2,6 +2,7 @@ import db from "../models/index.js";
 import config from "../config/auth.config.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import logger from "../config/logger.js";
 
 const User = db.User;
 const Role = db.Role;
@@ -72,6 +73,7 @@ export const signup = async (req, res) => {
             role: role.name,
             link: user.link,
         });
+        logger.info(`User ${user.username} signup successfully`);
     } catch (err) {
         if (
             err instanceof db.Sequelize.ValidationError ||
@@ -83,6 +85,7 @@ export const signup = async (req, res) => {
             message:
                 "Rejestracja nie powiodła się z powodu wewnętrznego błędu serwera",
         });
+        logger.error(`Signup error: ${err.stack}`);
     }
 };
 
@@ -134,7 +137,7 @@ export const signin = async (req, res) => {
             link: user.link,
         };
 
-        console.log(`User ${user.username} authenticated successfully`);
+        logger.info(`User ${user.username} signin successfully`);
         res.status(200).json(responseData);
     } catch (err) {
         if (
@@ -147,6 +150,7 @@ export const signin = async (req, res) => {
             message:
                 "Rejestracja nie powiodła się z powodu wewnętrznego błędu serwera",
         });
+        logger.error(`Signin error: ${err.stack}`);
     }
 };
 export const signout = (req, res) => {
