@@ -20,6 +20,10 @@ const MainLayout = () => {
                 minHeight: "100vh",
                 bgcolor: "background.default",
                 color: "text.primary",
+                background: `url('/topography.svg')`,
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center",
             }}
         >
             <TopNavbar />
