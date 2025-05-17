@@ -39,7 +39,8 @@ const TopNavbar = () => {
                 bgcolor: "background.default",
                 color: "text.primary",
                 borderBottom: `1px solid ${theme.palette.divider}`,
-                boxShadow: "none",
+                boxShadow: "0 2px 8px rgba(0, 0, 0, 0.5)", // Добавляем глубокую тень
+                backgroundImage: "none", // Отключаем возможные градиенты
             }}
         >
             <Toolbar
@@ -51,19 +52,19 @@ const TopNavbar = () => {
                 }}
             >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                    <Typography
-                        variant="h6"
+                    <Box
                         component={Link}
                         to="/"
                         sx={{
+                            height: 40,
+                            width: 120,
                             textDecoration: "none",
-                            color: "primary.main",
-                            fontFamily: theme.typography.fontFamily,
-                            fontWeight: 600,
+                            backgroundImage: "url(/logo.png)",
+                            backgroundSize: "contain",
+                            backgroundRepeat: "no-repeat",
+                            backgroundPosition: "center",
                         }}
-                    >
-                        Ninja na Kortowie!... Tsss...
-                    </Typography>
+                    />
 
                     {isAdminOrModerator() && (
                         <IconButton
