@@ -1,5 +1,5 @@
 // Homepage.jsx
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import AddOfferButton from "../components/buttons/AddOfferButton";
 import OfferList from "../components/offer/OfferList";
 import { InfoButton } from "../components/buttons/InfoButton";
@@ -11,10 +11,12 @@ const HomePage = () => {
     return (
         <Box
             sx={{
-                p: 1,
+                p: 2,
                 display: "flex",
                 flexDirection: "column",
-                gap: 2,
+                gap: 3,
+                maxWidth: "800px",
+                mx: "auto",
             }}
         >
             {!user && (
@@ -25,11 +27,33 @@ const HomePage = () => {
                         top: 0,
                         zIndex: 1000,
                         bgcolor: "background.paper",
-                        boxShadow: 1,
-                        borderRadius: 2,
-                        p: 1,
+                        boxShadow: 2,
+                        borderRadius: 3,
+                        p: 3,
+                        textAlign: "center", // Центрирует текст
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center", // Центрирует дочерние элементы по горизонтали
                     }}
                 >
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            mt: 1,
+                            fontWeight: "bold",
+                        }}
+                    >
+                        Witamy na Ninja!
+                    </Typography>
+                    <Typography variant="body1" sx={{ mt: 1 }}>
+                        Zaloguj się, aby przeglądać i tworzyć oferty. Jeśli nie
+                        masz konta, możesz je założyć.
+                    </Typography>
+                    <Typography variant="body1" sx={{ mt: 1 }}>
+                        Po zalogowaniu możesz dodawać nowe oferty i przeglądać
+                        istniejące.
+                    </Typography>
+                    <br />
                     <InfoButton />
                 </Box>
             )}

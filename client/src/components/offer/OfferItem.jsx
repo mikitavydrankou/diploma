@@ -39,6 +39,8 @@ const OfferItem = ({ offer, currentTime }) => {
                     display: "flex",
                     flexDirection: "column",
                     borderRadius: 2,
+                    border: "1px solid",
+                    borderColor: "divider",
                     boxShadow: 3,
                     overflow: "hidden",
                     transition: "transform 0.3s, box-shadow 0.3s",
