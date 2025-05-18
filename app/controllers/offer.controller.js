@@ -168,3 +168,13 @@ export const fetchOfferById = async (req, res) => {
         res.status(500).json({ message: "Failed to fetch offer by id" });
     }
 };
+
+export const countAllOffers = async (req, res) => {
+    try {
+        const count = await Offer.count();
+        res.status(200).json({ count });
+    } catch (err) {
+        logger.error(`Counting offers error: ${err.stack}`);
+        res.status(500).json({ message: "Failed to count offers" });
+    }
+};
