@@ -6,10 +6,11 @@ import SigninPage from "./pages/authPages/SigninPage";
 import SignupPage from "./pages/authPages/SignupPage";
 import TopNavbar from "./components/navbars/TopNavbar";
 import BottomNavbar from "./components/navbars/BottomNavbar";
-import ProfilePage from "./pages/ProfilePage";
+
 import OfferPage from "./pages/OfferPage";
 import { CreateOfferPage } from "./pages/CreateOfferPage";
 import { useAuthStore } from "./store/authStore";
+import InfoPage from "./pages/InfoPage";
 
 const MainLayout = () => {
     return (
@@ -61,7 +62,7 @@ function App() {
 
                 <Route element={<MainLayout />}>
                     <Route path="/" element={<HomePage />} />
-                    <Route path="/profile" element={<ProfilePage />} />
+                    <Route path="/profile" element={<InfoPage />} />
                     <Route path="/offer/create" element={<CreateOfferPage />} />
                 </Route>
             </Routes>

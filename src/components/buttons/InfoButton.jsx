@@ -42,7 +42,8 @@ export const InfoButton = () => {
                 <DialogTitle>Czym jest Kortowo Ninja?</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Ninja to platforma wymiany dla studentów UWM:
+                        Ninja to platforma wymiany czegokolwiek dla studentów na
+                        Kortowo:
                         <br />
                         <br />
                         • Tworzenie i publikowanie ofert (przedmiotów, usług lub
@@ -75,6 +76,19 @@ export const InfoButton = () => {
                         <br />
                         • Przeglądaj oferty innych
                         <br />• Pisz przez Facebooka — bez formalności
+                        <br />
+                        <br />
+                        <Typography
+                            component="span"
+                            sx={{
+                                fontSize: "0.9rem",
+                                display: "block",
+                                lineHeight: 1.3,
+                            }}
+                        >
+                            Po zalogowaniu znajdziesz przycisk „Info”, aby
+                            zapoznać się z tym, jak korzystać z platformy.
+                        </Typography>
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
