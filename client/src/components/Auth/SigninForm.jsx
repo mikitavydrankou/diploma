@@ -20,7 +20,7 @@ const SigninForm = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const { signin, isLoading, error } = useAuthStore();
-    const [openInfo, setOpenInfo] = useState(false);
+    // const [openInfo, setOpenInfo] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -35,7 +35,7 @@ const SigninForm = () => {
 
     return (
         <Box sx={{ maxWidth: 400, mx: "auto", mt: 8, p: 3 }}>
-            <Typography variant="h4" component="h1" gutterBottom align="center">
+            {/* <Typography variant="h4" component="h1" gutterBottom align="center">
                 <MuiLink
                     component="button"
                     variant="h5"
@@ -44,7 +44,26 @@ const SigninForm = () => {
                 >
                     Co to jest?
                 </MuiLink>
-            </Typography>
+            </Typography> */}
+
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    mb: 4,
+                }}
+            >
+                <Box
+                    sx={{
+                        height: 80,
+                        width: 240,
+                        backgroundImage: "url(/logo.png)",
+                        backgroundSize: "contain",
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "center",
+                    }}
+                />
+            </Box>
 
             <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
                 <Stack spacing={3}>
@@ -111,7 +130,7 @@ const SigninForm = () => {
                 </MuiLink>
             </Box>
 
-            <Dialog
+            {/* <Dialog
                 open={openInfo}
                 onClose={() => setOpenInfo(false)}
                 maxWidth="sm"
@@ -134,7 +153,7 @@ const SigninForm = () => {
                 <DialogActions>
                     <Button onClick={() => setOpenInfo(false)}>Zamknij</Button>
                 </DialogActions>
-            </Dialog>
+            </Dialog> */}
         </Box>
     );
 };

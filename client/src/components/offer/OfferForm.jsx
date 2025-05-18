@@ -146,7 +146,7 @@ const OfferForm = () => {
                     fullWidth
                     inputProps={{
                         min: 1,
-                        max: 12,
+                        max: 24,
                         step: 1,
                     }}
                 />

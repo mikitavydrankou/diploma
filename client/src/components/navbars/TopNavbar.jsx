@@ -5,32 +5,14 @@ import {
     Typography,
     useTheme,
     Box,
-    CircularProgress,
 } from "@mui/material";
 import { useAuthStore } from "../../store/authStore";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
-import { getUserCount } from "../../api/featureAPI";
-import PersonIcon from "@mui/icons-material/Person";
 
 const TopNavbar = () => {
     const theme = useTheme();
     const { isAdminOrModerator } = useAuthStore();
-    const [userCount, setUserCount] = useState(null);
-
-    useEffect(() => {
-        const fetchUserCount = async () => {
-            try {
-                const count = await getUserCount();
-                setUserCount(count);
-            } catch (err) {
-                console.error("Failed to fetch user count", err);
-            }
-        };
-
-        fetchUserCount();
-    }, []);
 
     return (
         <AppBar
@@ -39,8 +21,8 @@ const TopNavbar = () => {
                 bgcolor: "background.default",
                 color: "text.primary",
                 borderBottom: `1px solid ${theme.palette.divider}`,
-                boxShadow: "0 2px 8px rgba(0, 0, 0, 0.5)", // Добавляем глубокую тень
-                backgroundImage: "none", // Отключаем возможные градиенты
+                boxShadow: "0 2px 8px rgba(0, 0, 0, 0.5)",
+                backgroundImage: "none",
             }}
         >
             <Toolbar
@@ -51,21 +33,8 @@ const TopNavbar = () => {
                     alignItems: "center",
                 }}
             >
-                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                    <Box
-                        component={Link}
-                        to="/"
-                        sx={{
-                            height: 40,
-                            width: 120,
-                            textDecoration: "none",
-                            backgroundImage: "url(/logo.png)",
-                            backgroundSize: "contain",
-                            backgroundRepeat: "no-repeat",
-                            backgroundPosition: "center",
-                        }}
-                    />
-
+                {/* Левая часть - для админ-кнопки */}
+                <Box sx={{ width: 120 }}>
                     {isAdminOrModerator() && (
                         <IconButton
                             color="inherit"
@@ -83,29 +52,31 @@ const TopNavbar = () => {
                     )}
                 </Box>
 
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                    {userCount === null ? (
-                        <CircularProgress
-                            size={20}
-                            sx={{ color: theme.palette.error.dark }}
-                        />
-                    ) : (
-                        <>
-                            <PersonIcon
-                                sx={{ color: theme.palette.error.dark }}
-                            />
-                            <Typography
-                                variant="body1"
-                                sx={{
-                                    fontWeight: 500,
-                                    color: theme.palette.error.dark,
-                                }}
-                            >
-                                {userCount}
-                            </Typography>
-                        </>
-                    )}
+                {/* Центральная часть - лого */}
+                <Box
+                    sx={{
+                        flexGrow: 1,
+                        display: "flex",
+                        justifyContent: "center",
+                        position: "absolute",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                    }}
+                >
+                    <Box
+                        sx={{
+                            height: 40,
+                            width: 120,
+                            backgroundImage: "url(/logo.png)",
+                            backgroundSize: "contain",
+                            backgroundRepeat: "no-repeat",
+                            backgroundPosition: "center",
+                        }}
+                    />
                 </Box>
+
+                {/* Правая часть - для будущих элементов */}
+                <Box sx={{ width: 120 }}></Box>
             </Toolbar>
         </AppBar>
     );

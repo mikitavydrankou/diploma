@@ -8,7 +8,15 @@ const api = axios.create({
 export const getUserCount = async () => {
     try {
         const res = await api.get("/count");
-        console.log(res.data.count);
+        return res.data.count;
+    } catch (error) {
+        return null;
+    }
+};
+
+export const getOfferCount = async () => {
+    try {
+        const res = await api.get("/offer/count");
         return res.data.count;
     } catch (error) {
         return null;
