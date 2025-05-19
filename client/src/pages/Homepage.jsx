@@ -1,12 +1,35 @@
 // Homepage.jsx
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, CircularProgress } from "@mui/material";
 import AddOfferButton from "../components/buttons/AddOfferButton";
 import OfferList from "../components/offer/OfferList";
 import { InfoButton } from "../components/buttons/InfoButton";
 import { useAuthStore } from "../store/authStore";
+import { getUserCount, getOfferCount } from "../api/featureAPI.js";
+import { useEffect, useState } from "react";
+import PersonIcon from "@mui/icons-material/Person";
+import AssignmentIcon from "@mui/icons-material/Assignment";
 
 const HomePage = () => {
     const user = useAuthStore((s) => s.user);
+    const [userCount, setUserCount] = useState(null);
+    const [offerCount, setOfferCount] = useState(null);
+
+    useEffect(() => {
+        const fetchCounts = async () => {
+            try {
+                const [users, offers] = await Promise.all([
+                    getUserCount(),
+                    getOfferCount(),
+                ]);
+                setUserCount(users);
+                setOfferCount(offers);
+            } catch (err) {
+                console.error("Failed to fetch counts", err);
+            }
+        };
+
+        fetchCounts();
+    }, []);
 
     return (
         <Box
@@ -30,10 +53,10 @@ const HomePage = () => {
                         boxShadow: 2,
                         borderRadius: 3,
                         p: 3,
-                        textAlign: "center", // Центрирует текст
+                        textAlign: "center",
                         display: "flex",
                         flexDirection: "column",
-                        alignItems: "center", // Центрирует дочерние элементы по горизонтали
+                        alignItems: "center",
                     }}
                 >
                     <Typography
@@ -53,6 +76,71 @@ const HomePage = () => {
                         Po zalogowaniu możesz dodawać nowe oferty i przeglądać
                         istniejące.
                     </Typography>
+
+                    {/* Статистика */}
+                    <Box
+                        sx={{
+                            width: "100%",
+                            mt: 3,
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 2,
+                        }}
+                    >
+                        <Box
+                            sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 1,
+                                p: 2,
+                                borderRadius: 2,
+                                bgcolor: "action.hover",
+                                justifyContent: "center",
+                            }}
+                        >
+                            {userCount === null ? (
+                                <CircularProgress size={24} color="primary" />
+                            ) : (
+                                <>
+                                    <PersonIcon color="primary" />
+                                    <Typography
+                                        variant="body1"
+                                        fontWeight={500}
+                                    >
+                                        Już {userCount} zarejestrowanych
+                                        użytkowników!
+                                    </Typography>
+                                </>
+                            )}
+                        </Box>
+
+                        <Box
+                            sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 1,
+                                p: 2,
+                                borderRadius: 2,
+                                bgcolor: "action.hover",
+                                justifyContent: "center",
+                            }}
+                        >
+                            {offerCount === null ? (
+                                <CircularProgress size={24} color="primary" />
+                            ) : (
+                                <>
+                                    <AssignmentIcon color="primary" />
+                                    <Typography
+                                        variant="body1"
+                                        fontWeight={500}
+                                    >
+                                        Łącznie utworzono {offerCount} ofert!
+                                    </Typography>
+                                </>
+                            )}
+                        </Box>
+                    </Box>
+
                     <br />
                     <InfoButton />
                 </Box>
