@@ -102,10 +102,11 @@ const SignupForm = () => {
                             <br />
                             4. Wybierz „Kopiuj link do profilu” na dole
                             <br />
-                            5. Naciśnij "„Kopiuj link" w oknie, które się
-                            otworzy
+                            5. Wróć się na strone i wklej wyzej
                             <br />
-                            6. Wklej tutaj
+                            <a href="https://facebook.com/me" target="_blank">
+                                Otwórz swój profil
+                            </a>
                         </Typography>
                     )}
 
