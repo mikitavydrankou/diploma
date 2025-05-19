@@ -42,13 +42,28 @@ const OfferList = () => {
                     sx={{
                         fontSize: "0.85rem",
                         color: "text.secondary",
-
                         p: 1,
                         borderRadius: 2,
+                        lineHeight: 1.6,
                     }}
                 >
-                    Jeśli problem nie ustępuje, skontaktuj się ze mną w
-                    Messenger: Nikita Vydrankou
+                    Jeśli problem nie ustępuje, skontaktuj się ze mną przez{" "}
+                    <a
+                        href="https://docs.google.com/forms/d/e/1FAIpQLSd2maOG4HMX7UiaBmdkkTLLOBJ4-8bPbeiSVFOQ7cUiYk6C6Q/viewform"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                            color: "rgba(255, 0, 0, 0.3)",
+                            textDecoration: "underline",
+                            textDecorationColor: "rgba(255, 0, 0, 0.3)",
+                            transition: "0.2s",
+                        }}
+                        onMouseEnter={(e) => (e.target.style.opacity = 0.7)}
+                        onMouseLeave={(e) => (e.target.style.opacity = 1)}
+                    >
+                        formularz kontaktowy (nacisknij)
+                    </a>
+                    .
                 </Typography>
             </Box>
         );
