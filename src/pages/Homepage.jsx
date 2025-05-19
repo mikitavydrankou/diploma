@@ -146,8 +146,31 @@ const HomePage = () => {
                 </Box>
             )}
 
-            <Box sx={{ mt: 2 }}>
+            <Box>
                 {user && <AddOfferButton />}
+
+                <Box
+                    sx={{
+                        mb: 1,
+                        px: 2,
+                        py: 1.5,
+                        borderRadius: 2,
+
+                        boxShadow: 1,
+                        textAlign: "center",
+                    }}
+                >
+                    <Typography
+                        variant="h6"
+                        sx={{
+                            fontWeight: 500,
+                            color: "text.secondary",
+                        }}
+                    >
+                        Oferty innych użytkowników
+                    </Typography>
+                </Box>
+
                 <OfferList />
             </Box>
         </Box>
