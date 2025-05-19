@@ -33,7 +33,6 @@ const TopNavbar = () => {
                     alignItems: "center",
                 }}
             >
-                {/* Левая часть - для админ-кнопки */}
                 <Box sx={{ width: 120 }}>
                     {isAdminOrModerator() && (
                         <IconButton
