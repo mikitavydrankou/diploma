@@ -38,8 +38,6 @@ const TopNavbar = () => {
                     {isAdminOrModerator() && (
                         <IconButton
                             color="inherit"
-                            component={Link}
-                            to="/admin"
                             sx={{
                                 color: "secondary.main",
                                 "&:hover": {
