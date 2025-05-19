@@ -1,17 +1,30 @@
-import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
+import {
+    BottomNavigation,
+    BottomNavigationAction,
+    Paper,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogContentText,
+    DialogActions,
+    Button,
+} from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
 import HomeIcon from "@mui/icons-material/Home";
 import InfoIcon from "@mui/icons-material/Info";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import { useState } from "react";
 
 const BottomNavbar = () => {
     const navigate = useNavigate();
     const { logout, user } = useAuthStore();
+    const [openLogoutDialog, setOpenLogoutDialog] = useState(false);
 
     const handleLogout = () => {
         logout();
         navigate("/");
+        setOpenLogoutDialog(false);
     };
 
     return (
@@ -44,7 +57,7 @@ const BottomNavbar = () => {
                           <BottomNavigationAction
                               key="logout"
                               icon={<ExitToAppIcon />}
-                              onClick={handleLogout}
+                              onClick={() => setOpenLogoutDialog(true)}
                               label="Wyloguj się"
                           />,
                       ]
@@ -57,6 +70,33 @@ const BottomNavbar = () => {
                           />,
                       ]}
             </BottomNavigation>
+
+            <Dialog
+                open={openLogoutDialog}
+                onClose={() => setOpenLogoutDialog(false)}
+            >
+                <DialogTitle>Potwierdź wylogowanie</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Czy na pewno chcesz się wylogować?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button
+                        onClick={() => setOpenLogoutDialog(false)}
+                        color="primary"
+                    >
+                        Anuluj
+                    </Button>
+                    <Button
+                        onClick={handleLogout}
+                        color="error"
+                        variant="contained"
+                    >
+                        Wyloguj
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </Paper>
     );
 };
