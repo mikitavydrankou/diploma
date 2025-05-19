@@ -119,7 +119,13 @@ const InfoPage = () => {
                                     alignItems="center"
                                 >
                                     <LinkIcon fontSize="small" color="action" />
-                                    <Typography variant="body1">
+                                    <Typography
+                                        variant="body1"
+                                        sx={{
+                                            wordBreak: "break-all",
+                                            overflowWrap: "break-word",
+                                        }}
+                                    >
                                         {user.link}
                                     </Typography>
                                 </Stack>
