@@ -1,5 +1,7 @@
 import db from "../models/index.js";
+import logger from "../config/logger.js";
 const QRCounter = db.QRCounter;
+
 const routes = function (app) {
     app.get("/qr/:code", async (req, res) => {
         const code = req.params.code;
@@ -14,7 +16,7 @@ const routes = function (app) {
             await QRCounter.increment("hits", { where: { code } });
             res.redirect(302, "https://kortowo.ninja/");
         } catch (error) {
-            console.error("Error в QR-counter:", error);
+            logger.error("Error в QR-counter:", error);
             res.status(500).send(
                 "Jakiś błąd, sprobuj podłączyć się na - kortowo.ninja"
             );
