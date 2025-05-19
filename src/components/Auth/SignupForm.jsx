@@ -94,7 +94,7 @@ const SignupForm = () => {
                         >
                             <strong>Jak znaleźć link do profilu:</strong>
                             <br />
-                            1. Otwórz aplikację Facebook
+                            1. Otwórz aplikację Facebooka
                             <br />
                             2. Przejdź do swojego profilu
                             <br />
@@ -102,11 +102,8 @@ const SignupForm = () => {
                             <br />
                             4. Wybierz „Kopiuj link do profilu” na dole
                             <br />
-                            5. Wróć się na strone i wklej wyzej
+                            5. Wróć na stronę i wklej go powyżej
                             <br />
-                            <a href="https://facebook.com/me" target="_blank">
-                                Otwórz swój profil
-                            </a>
                         </Typography>
                     )}
 
