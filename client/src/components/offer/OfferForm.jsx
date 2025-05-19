@@ -99,6 +99,19 @@ const OfferForm = () => {
                     ))}
                 </Select>
 
+                <Typography
+                    variant="body2"
+                    align="left"
+                    sx={{
+                        fontSize: "0.85rem",
+                        color: "text.secondary",
+                        p: 1,
+                        borderRadius: 2,
+                    }}
+                >
+                    Tytuł będzie widoczny na karcie oferty
+                </Typography>
+
                 <TextField
                     name="title"
                     label="Tytuł"
@@ -120,7 +133,8 @@ const OfferForm = () => {
                         borderRadius: 2,
                     }}
                 >
-                    Ten napis będzie widoczny na karcie oferty
+                    Napisz dobry opis, aby przyciągnąć uwagę innych
+                    użytkowników.
                 </Typography>
 
                 <TextField
@@ -136,6 +150,20 @@ const OfferForm = () => {
                     helperText={`${formData.description.length}/${LIMITS.description}`}
                 />
 
+                <Typography
+                    variant="body2"
+                    align="left"
+                    sx={{
+                        fontSize: "0.85rem",
+                        color: "text.secondary",
+                        p: 1,
+                        borderRadius: 2,
+                    }}
+                >
+                    Maskymalna ilość godzin to 48. Po tym czasie oferta zostanie
+                    zarchiwizowana.
+                </Typography>
+
                 <TextField
                     type="number"
                     name="ttlHours"
@@ -146,20 +174,9 @@ const OfferForm = () => {
                     fullWidth
                     inputProps={{
                         min: 1,
-                        max: 24,
+                        max: 48,
                         step: 1,
                     }}
-                />
-
-                <TextField
-                    name="counter_offer"
-                    label="Propozycja"
-                    value={formData.counter_offer}
-                    onChange={handleChange}
-                    required
-                    fullWidth
-                    inputProps={{ maxLength: LIMITS.counter_offer }}
-                    helperText={`${formData.counter_offer.length}/${LIMITS.counter_offer}`}
                 />
 
                 <Typography
@@ -172,8 +189,19 @@ const OfferForm = () => {
                         borderRadius: 2,
                     }}
                 >
-                    Jak nie wiesz co wpisać, napisz n.p. "Czekam na propozycje"
+                    Jak nie wiesz co chcecz, napisz n.p. "Czekam na propozycje"
                 </Typography>
+
+                <TextField
+                    name="counter_offer"
+                    label="Propozycja"
+                    value={formData.counter_offer}
+                    onChange={handleChange}
+                    required
+                    fullWidth
+                    inputProps={{ maxLength: LIMITS.counter_offer }}
+                    helperText={`${formData.counter_offer.length}/${LIMITS.counter_offer}`}
+                />
 
                 <FormControlLabel
                     control={

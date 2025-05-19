@@ -13,7 +13,6 @@ export const useAuthStore = create(
                 set({ isLoading: true, error: null });
                 try {
                     const { data } = await signin(username, password);
-                    console.log("signin data", data);
                     set({ user: data, isLoading: false, error: null });
                 } catch (error) {
                     set({
