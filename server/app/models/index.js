@@ -4,6 +4,7 @@ import userModel from "../models/user.model.js";
 import roleModel from "../models/role.model.js";
 import offerModel from "./offer.model.js";
 import schedule from "node-schedule";
+import QRCounterModel from "./QRCounter.model.js";
 
 const sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
     host: config.HOST,
@@ -26,6 +27,7 @@ db.sequelize = sequelize;
 db.User = userModel(sequelize, Sequelize);
 db.Role = roleModel(sequelize, Sequelize);
 db.Offer = offerModel(sequelize, Sequelize);
+db.QRCounter = QRCounterModel(sequelize, Sequelize);
 
 db.Offer.addHook("beforeFind", (options) => {
     if (!options.where?.status) {
