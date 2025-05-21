@@ -22,11 +22,11 @@ export const InfoButton = () => {
                 onClick={() => setOpen(true)}
                 sx={{
                     width: "100%",
-                    py: 2,
+                    py: 0.5,
                     borderRadius: 2,
                     textTransform: "none",
-                    fontSize: "1.1rem",
-                    fontWeight: 500,
+                    fontSize: "1rem",
+                    fontWeight: 400,
                     transition: "all 0.3s",
                     "&:hover": {
                         transform: "translateY(-2px)",
