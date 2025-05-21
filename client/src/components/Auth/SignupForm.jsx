@@ -60,6 +60,11 @@ const SignupForm = () => {
                         onChange={(e) => setUsername(e.target.value)}
                         required
                     />
+                    <Alert severity="error" sx={{ fontSize: "0.85rem" }}>
+                        Pamiętaj, aby twój profil był publiczny, aby inni mogli
+                        zobaczyć twoje ogłoszenie. Możesz to zrobić w
+                        ustawieniach prywatności swojego profilu.
+                    </Alert>
 
                     <TextField
                         fullWidth
@@ -82,29 +87,17 @@ const SignupForm = () => {
                             Tutaj znajdziesz swój link
                         </Button>
                     ) : (
-                        <Typography
-                            variant="body2"
-                            align="left"
-                            sx={{
-                                fontSize: "0.85rem",
-                                color: "text.secondary",
-                                p: 1,
-                                borderRadius: 2,
-                            }}
+                        <Alert
+                            severity="error"
+                            sx={{ fontSize: "0.85rem", whiteSpace: "pre-wrap" }}
                         >
                             <strong>Jak znaleźć link do profilu:</strong>
-                            <br />
-                            1. Otwórz aplikację Facebooka
-                            <br />
-                            2. Przejdź do swojego profilu
-                            <br />
-                            3. Kliknij trzy kropki obok „Edytuj profil”
-                            <br />
-                            4. Wybierz „Kopiuj link do profilu” na dole
-                            <br />
-                            5. Wróć na stronę i wklej go powyżej
-                            <br />
-                        </Typography>
+                            {"\n"}1. Otwórz aplikację Facebooka
+                            {"\n"}2. Przejdź do swojego profilu
+                            {"\n"}3. Kliknij trzy kropki obok „Edytuj profil”
+                            {"\n"}4. Na dole wybierz „Kopiuj link do profilu”
+                            {"\n"}5. Wróć na stronę i wklej go powyżej
+                        </Alert>
                     )}
 
                     <TextField
@@ -132,10 +125,17 @@ const SignupForm = () => {
                             <>
                                 Akceptuję{" "}
                                 <MuiLink
-                                    component="button"
+                                    component="span"
                                     variant="body2"
-                                    onClick={() => setOpenTerms(true)}
-                                    sx={{ cursor: "pointer" }}
+                                    onClick={(e) => {
+                                        e.preventDefault(); // <--- важно!
+                                        e.stopPropagation(); // <--- тоже желательно
+                                        setOpenTerms(true);
+                                    }}
+                                    sx={{
+                                        cursor: "pointer",
+                                        textDecoration: "underline",
+                                    }}
                                 >
                                     Regulamin Kortowo Ninja
                                 </MuiLink>
