@@ -225,13 +225,14 @@ const OfferPage = () => {
                     </Typography>
 
                     <Typography paragraph>
-                        Użytkownik ponosi pełną odpowiedzialność za swoje
-                        działania i zamieszczane treści. Kortowo Ninja nie
-                        bierze udziału w sporach pomiędzy użytkownikami i nie
-                        ponosi odpowiedzialności za jakiekolwiek konsekwencje
-                        wynikające z umów zawartych poza platformą, w tym
-                        również za szkody, oszustwa, nieporozumienia czy brak
-                        realizacji ustaleń.
+                        Kortowo Ninja udostępnia jedynie narzędzie do
+                        zamieszczania ogłoszeń i nie bierze udziału w wymianie
+                        przedmiotów między użytkownikami. Wszystkie ustalenia,
+                        spotkania i przekazania przedmiotów odbywają się poza
+                        platformą — na własną odpowiedzialność użytkowników.
+                        Administracja nie ponosi odpowiedzialności za skutki
+                        takich interakcji, w tym ewentualne spory, oszustwa lub
+                        niewywiązanie się z ustaleń.
                     </Typography>
 
                     <Typography variant="subtitle1" gutterBottom>
@@ -243,13 +244,6 @@ const OfferPage = () => {
                         <li>Nielegalne przedmioty</li>
                         <li>Reklama bez zgody</li>
                     </ul>
-
-                    <Typography variant="subtitle1" gutterBottom>
-                        Dane osobowe
-                    </Typography>
-                    <Typography paragraph>
-                        Podajesz dane dobrowolnie i na własną odpowiedzialność.
-                    </Typography>
 
                     <FormControlLabel
                         control={
