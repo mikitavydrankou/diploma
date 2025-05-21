@@ -42,52 +42,37 @@ export const InfoButton = () => {
                 <DialogTitle>Czym jest Kortowo Ninja?</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Ninja to platforma wymiany czegokolwiek dla studentów na
-                        Kortowo:
-                        <br />
-                        <br />
-                        • Tworzenie i publikowanie ofert (przedmiotów, usług lub
-                        propozycji wymiany)
-                        <br />
+                        <Typography gutterBottom>
+                            <strong>Kortowo Ninja</strong> to studencka
+                            platforma wymiany wszystkiego — bez formalności.
+                        </Typography>
+
+                        <ul
+                            style={{
+                                paddingLeft: "1.2em",
+                                marginTop: 8,
+                                marginBottom: 8,
+                            }}
+                        >
+                            <li>Przeglądaj ogłoszenia innych</li>
+                            <li>Dodaj ofertę (przedmiot, usługę, cokolwiek)</li>
+                            <li>Dogaduj się przez Facebooka</li>
+                        </ul>
+
                         <Typography
-                            component="div"
                             variant="body2"
                             sx={{
                                 fontStyle: "italic",
                                 color: "text.secondary",
-                                ml: 2,
-                                mt: 0.5,
                             }}
                         >
-                            „Co masz do oddania? Czego szukasz? Dogadajcie się!”
-                            <br />
-                            <Typography
-                                component="span"
-                                sx={{
-                                    fontSize: "0.9rem",
-                                    display: "block",
-                                    lineHeight: 1.3,
-                                }}
-                            >
-                                (Książka za kawę, pomoc w nauce za pizzę, stare
-                                krzesło za roślinę, piwko za chipsy...)
-                            </Typography>
+                            „Książka za kawę, pomoc w nauce za pizzę, krzesło za
+                            roślinę…”
                         </Typography>
-                        <br />
-                        • Przeglądaj oferty innych
-                        <br />• Pisz przez Facebooka — bez formalności
-                        <br />
-                        <br />
-                        <Typography
-                            component="span"
-                            sx={{
-                                fontSize: "0.9rem",
-                                display: "block",
-                                lineHeight: 1.3,
-                            }}
-                        >
-                            Po zalogowaniu znajdziesz przycisk „Info”, aby
-                            zapoznać się z tym, jak korzystać z platformy.
+
+                        <Typography variant="body2" sx={{ mt: 2 }}>
+                            Po zalogowaniu kliknij „Info” na dole, aby
+                            dowiedzieć się więcej.
                         </Typography>
                     </DialogContentText>
                 </DialogContent>
