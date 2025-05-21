@@ -46,8 +46,6 @@ const HomePage = () => {
                 <Box
                     sx={{
                         width: "100%",
-                        position: "sticky",
-                        top: 0,
                         zIndex: 1000,
                         bgcolor: "background.paper",
                         boxShadow: 2,
