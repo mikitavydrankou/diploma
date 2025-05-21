@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useOfferById } from "../api/offerQueries";
 import BackButton from "../components/buttons/BackButton";
@@ -12,6 +12,12 @@ import {
     Divider,
     Button,
     CircularProgress,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    FormControlLabel,
+    Checkbox,
 } from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import PlaceIcon from "@mui/icons-material/Place";
@@ -21,6 +27,14 @@ const OfferPage = () => {
     const { id } = useParams();
     const { data: offer, isLoading, error } = useOfferById(id);
     const { user } = useAuthStore();
+
+    const [openTerms, setOpenTerms] = useState(false);
+    const [acceptedTerms, setAcceptedTerms] = useState(false);
+
+    const handleAcceptTerms = () => {
+        setAcceptedTerms(true);
+        setOpenTerms(false);
+    };
 
     if (isLoading)
         return (
@@ -42,7 +56,6 @@ const OfferPage = () => {
     const isOwner = user?.id === offer.user.id;
     const isAdminOrModerator =
         user?.role === "admin" || user?.role === "moderator";
-
     const canDelete = isOwner || isAdminOrModerator;
 
     return (
@@ -62,11 +75,7 @@ const OfferPage = () => {
 
             <Typography
                 variant="body2"
-                sx={{
-                    fontSize: "0.85rem",
-                    color: "text.secondary",
-                    mb: 0,
-                }}
+                sx={{ fontSize: "0.85rem", color: "text.secondary", mb: 0 }}
             >
                 Przedmiot oferty:
             </Typography>
@@ -135,22 +144,40 @@ const OfferPage = () => {
                 Skontaktuj się z autorem oferty:
             </Typography>
 
-            <Button
-                variant="contained"
-                startIcon={<FacebookIcon />}
-                href={offer.user?.link}
-                target="_blank"
-                sx={{
-                    width: "100%",
-                    py: 1.5,
-                    borderRadius: 1,
-                    fontWeight: 500,
-                    textTransform: "none",
-                    mb: 3,
-                }}
-            >
-                Napisz wiadomość na Facebooku
-            </Button>
+            {!acceptedTerms ? (
+                <Button
+                    variant="contained"
+                    startIcon={<FacebookIcon />}
+                    onClick={() => setOpenTerms(true)}
+                    sx={{
+                        width: "100%",
+                        py: 1.5,
+                        borderRadius: 1,
+                        fontWeight: 500,
+                        textTransform: "none",
+                        mb: 3,
+                    }}
+                >
+                    Zaakceptuj regulamin, aby zobaczyć link
+                </Button>
+            ) : (
+                <Button
+                    variant="contained"
+                    startIcon={<FacebookIcon />}
+                    href={offer.user?.link}
+                    target="_blank"
+                    sx={{
+                        width: "100%",
+                        py: 1.5,
+                        borderRadius: 1,
+                        fontWeight: 500,
+                        textTransform: "none",
+                        mb: 3,
+                    }}
+                >
+                    Napisz wiadomość na Facebooku
+                </Button>
+            )}
 
             <Box
                 sx={{
@@ -163,6 +190,90 @@ const OfferPage = () => {
                 {canDelete && <DeleteButton offerId={offer.id} />}
                 <BackButton />
             </Box>
+
+            <Dialog
+                open={openTerms}
+                onClose={() => setOpenTerms(false)}
+                maxWidth="sm"
+                fullWidth
+            >
+                <DialogTitle>Regulamin Kortowo Ninja</DialogTitle>
+                <DialogContent dividers>
+                    <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        gutterBottom
+                    >
+                        Zaktualizowano: 15.05.2025
+                    </Typography>
+
+                    <Typography paragraph>
+                        Przed skontaktowaniem się z autorem oferty prosimy o
+                        uważne zapoznanie się z regulaminem:
+                    </Typography>
+
+                    <Typography variant="subtitle1" gutterBottom>
+                        Korzystanie z platformy
+                    </Typography>
+                    <Typography paragraph>
+                        Kortowo Ninja to bezpłatna platforma do wymiany rzeczy
+                        między studentami...
+                    </Typography>
+
+                    <Typography variant="subtitle1" gutterBottom>
+                        Odpowiedzialność
+                    </Typography>
+
+                    <Typography paragraph>
+                        Użytkownik ponosi pełną odpowiedzialność za swoje
+                        działania i zamieszczane treści. Kortowo Ninja nie
+                        bierze udziału w sporach pomiędzy użytkownikami i nie
+                        ponosi odpowiedzialności za jakiekolwiek konsekwencje
+                        wynikające z umów zawartych poza platformą, w tym
+                        również za szkody, oszustwa, nieporozumienia czy brak
+                        realizacji ustaleń.
+                    </Typography>
+
+                    <Typography variant="subtitle1" gutterBottom>
+                        Zakazane treści
+                    </Typography>
+                    <ul>
+                        <li>Alkohol dla osób poniżej 18 roku życia</li>
+                        <li>Przemoc, dyskryminacja, spam, oszustwa</li>
+                        <li>Nielegalne przedmioty</li>
+                        <li>Reklama bez zgody</li>
+                    </ul>
+
+                    <Typography variant="subtitle1" gutterBottom>
+                        Dane osobowe
+                    </Typography>
+                    <Typography paragraph>
+                        Podajesz dane dobrowolnie i na własną odpowiedzialność.
+                    </Typography>
+
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={acceptedTerms}
+                                onChange={(e) =>
+                                    setAcceptedTerms(e.target.checked)
+                                }
+                            />
+                        }
+                        label="Akceptuję regulamin Kortowo Ninja"
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpenTerms(false)}>Anuluj</Button>
+                    <Button
+                        onClick={handleAcceptTerms}
+                        disabled={!acceptedTerms}
+                        variant="contained"
+                    >
+                        Akceptuję
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </Container>
     );
 };
