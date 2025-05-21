@@ -61,9 +61,8 @@ const SignupForm = () => {
                         required
                     />
                     <Alert severity="error" sx={{ fontSize: "0.85rem" }}>
-                        Pamiętaj, aby twój profil był publiczny, aby inni mogli
-                        zobaczyć twoje ogłoszenie. Możesz to zrobić w
-                        ustawieniach prywatności swojego profilu.
+                        Pamiętaj, aby twój profil był publiczny. Możesz to
+                        zrobić w ustawieniach prywatności swojego profilu.
                     </Alert>
 
                     <TextField
