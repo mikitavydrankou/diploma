@@ -66,7 +66,20 @@ const BottomNavbar = () => {
                               key="signin"
                               component={Link}
                               to="/signin"
-                              label="Zaloguj się, aby dodać!"
+                              label="Zaloguj się"
+                              sx={{
+                                  color: "primary.main",
+                                  "& .MuiBottomNavigationAction-label": {
+                                      fontWeight: "bold",
+                                  },
+                                  bgcolor: "action.hover",
+                                  border: "1px solid",
+                                  borderColor: "primary.main",
+                                  borderRadius: 2,
+                                  mx: 1,
+                                  mb: 1,
+                                  mt: 1,
+                              }}
                           />,
                       ]}
             </BottomNavigation>

@@ -34,7 +34,7 @@ const HomePage = () => {
     return (
         <Box
             sx={{
-                p: 2,
+                p: 1,
                 display: "flex",
                 flexDirection: "column",
                 gap: 3,
@@ -151,11 +151,8 @@ const HomePage = () => {
 
                 <Box
                     sx={{
-                        mb: 1,
-                        px: 2,
-                        py: 1.5,
+                        mb: 2,
                         borderRadius: 2,
-
                         boxShadow: 1,
                         textAlign: "center",
                     }}
