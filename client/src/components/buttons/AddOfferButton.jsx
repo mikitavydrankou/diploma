@@ -28,7 +28,7 @@ function AddOfferButton() {
             aria-label="add"
             component={Link}
             to="/offer/create"
-            size={isMobile ? "medium" : "large"}
+            size={"large"}
             sx={{
                 boxShadow: 8,
                 "&:hover": {
@@ -37,7 +37,7 @@ function AddOfferButton() {
                 },
             }}
         >
-            <AddIcon fontSize={isMobile ? "medium" : "large"} />
+            <AddIcon fontSize={"large"} />
             {!isMobile}
         </SafeAreaFab>
     );
