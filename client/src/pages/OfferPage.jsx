@@ -54,7 +54,22 @@ const OfferPage = () => {
                     alignItems: "center",
                     mb: 3,
                 }}
-            ></Box>
+            >
+                <Typography variant="h5" sx={{ fontWeight: 600 }}>
+                    Szczegóły oferty
+                </Typography>
+            </Box>
+
+            <Typography
+                variant="body2"
+                sx={{
+                    fontSize: "0.85rem",
+                    color: "text.secondary",
+                    mb: 0,
+                }}
+            >
+                Przedmiot oferty:
+            </Typography>
 
             <Typography
                 variant="h4"
@@ -67,14 +82,14 @@ const OfferPage = () => {
             <Box sx={{ display: "flex", gap: 2, mb: 3 }}>
                 <Chip
                     icon={<PlaceIcon />}
-                    label={offer.place}
+                    label={`Lokalizacja: ${offer.place}`}
                     color="primary"
                     variant="outlined"
                     sx={{ borderRadius: 1 }}
                 />
                 <Chip
                     icon={<PersonIcon />}
-                    label={`${offer.user?.username}`}
+                    label={`Użytkownik: ${offer.user?.username}`}
                     variant="outlined"
                     sx={{ borderRadius: 1 }}
                 />
@@ -84,7 +99,7 @@ const OfferPage = () => {
 
             <Box sx={{ mb: 3 }}>
                 <Typography variant="h6" gutterBottom sx={{ fontWeight: 500 }}>
-                    Opis oferty:
+                    Opis oferty
                 </Typography>
                 <Typography
                     variant="body1"
@@ -94,13 +109,13 @@ const OfferPage = () => {
                         overflowWrap: "anywhere",
                     }}
                 >
-                    {offer.description}
+                    {offer.description || "Brak opisu"}
                 </Typography>
             </Box>
 
             <Box sx={{ mb: 4 }}>
                 <Typography variant="h6" gutterBottom sx={{ fontWeight: 500 }}>
-                    Poszukuję:
+                    Proponowana wymiana
                 </Typography>
                 <Typography
                     variant="body1"
@@ -112,9 +127,13 @@ const OfferPage = () => {
                         overflowWrap: "anywhere",
                     }}
                 >
-                    {offer.counter_offer}
+                    {offer.counter_offer || "Nie podano preferencji wymiany"}
                 </Typography>
             </Box>
+
+            <Typography variant="body2" sx={{ color: "text.secondary", mb: 1 }}>
+                Skontaktuj się z autorem oferty:
+            </Typography>
 
             <Button
                 variant="contained"
@@ -130,7 +149,7 @@ const OfferPage = () => {
                     mb: 3,
                 }}
             >
-                Skontaktuj się przez Facebook
+                Napisz wiadomość na Facebooku
             </Button>
 
             <Box
