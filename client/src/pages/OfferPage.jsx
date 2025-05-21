@@ -158,7 +158,7 @@ const OfferPage = () => {
                         mb: 3,
                     }}
                 >
-                    Zaakceptuj regulamin, aby zobaczyć link
+                    Zaakceptuj regulamin, aby zobaczyć link użytkownika
                 </Button>
             ) : (
                 <Button
