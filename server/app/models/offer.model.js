@@ -17,7 +17,9 @@ const offerModel = (sequelize, Sequelize) => {
                 "DS6",
                 "DS7",
                 "DS8",
-                "DS119"
+                "DS9",
+                "DS119",
+                "Górka Kortowska"
             ),
             allowNull: false,
             validate: {
@@ -31,7 +33,9 @@ const offerModel = (sequelize, Sequelize) => {
                             "DS6",
                             "DS7",
                             "DS8",
+                            "DS9",
                             "DS119",
+                            "Górka Kortowska",
                         ],
                     ],
                     msg: "Nie ma takiej opcji",
