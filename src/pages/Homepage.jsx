@@ -66,15 +66,10 @@ const HomePage = () => {
                             fontWeight: "bold",
                         }}
                     >
-                        Witamy na Ninja!
+                        Wymiany na Ninja!
                     </Typography>
                     <Typography variant="body1" sx={{ mt: 1 }}>
-                        Zaloguj się, aby przeglądać i tworzyć oferty. Jeśli nie
-                        masz konta, możesz je założyć.
-                    </Typography>
-                    <Typography variant="body1" sx={{ mt: 1 }}>
-                        Po zalogowaniu możesz dodawać nowe oferty i przeglądać
-                        istniejące.
+                        Zaloguj się, aby tworzyć oferty!
                     </Typography>
 
                     {/* Статистика */}
