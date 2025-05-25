@@ -11,7 +11,7 @@ const app = express();
 const port = 3000;
 
 const corsOptions = {
-    origin: process.env.HOST ? process.env.HOST : "https://kortowo.ninja",
+    origin: "https://kortowo.ninja",
     credentials: true,
 };
 
