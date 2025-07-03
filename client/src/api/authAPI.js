@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: "https://api.kortowo.ninja/api/auth",
+    baseURL: `${import.meta.env.VITE_API_URL}/auth`,
     withCredentials: true,
 });
 
@@ -20,7 +20,6 @@ export const checkauth = async () => {
         const res = await api.get("/me");
         return res.data;
     } catch (error) {
-        // Просто возвращаем null без вывода в консоль
         return null;
     }
 };

@@ -12,24 +12,39 @@ const roleModel = (sequelize, Sequelize) => {
                 allowNull: false,
                 unique: true,
             },
+            description: {
+                type: Sequelize.STRING(255),
+                allowNull: true,
+            },
         },
         {
-            timestamps: false,
+            timestamps: false, 
             hooks: {
                 afterSync: async (options) => {
-                    if (options.force || options.alter) {
+                    try {
                         const count = await Role.count();
+                        console.log(`Current roles count: ${count}`);
+                        
                         if (count === 0) {
-                            await Role.bulkCreate(
-                                [
-                                    { name: "user" },
-                                    { name: "moderator" },
-                                    { name: "admin" },
-                                ],
-                                { validate: true }
-                            );
-                            console.log("Initial roles created");
+                            console.log('Creating initial roles...');
+                            
+                            const roles = [
+                                { id: 1, name: "user", description: "Regular user" },
+                                { id: 2, name: "admin", description: "Administrator" },
+                                { id: 3, name: "moderator", description: "Content moderator" },
+                            ];
+
+                            await Role.bulkCreate(roles, { 
+                                validate: true,
+                                ignoreDuplicates: true
+                            });
+                            
+                            console.log("Initial roles created successfully");
+                        } else {
+                            console.log("Roles already exist, skipping creation");
                         }
+                    } catch (error) {
+                        console.error("Error creating initial roles:", error);
                     }
                 },
             },
