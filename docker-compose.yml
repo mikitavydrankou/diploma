@@ -19,8 +19,7 @@ services:
     ports:
       - "9000:3000"
     depends_on:
-      mysql:
-        condition: service_healthy
+      - mysql
     networks:
       - diploma-network
     restart: unless-stopped
